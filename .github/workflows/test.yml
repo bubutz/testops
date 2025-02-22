@@ -10,10 +10,11 @@ jobs:
   set-vars:
     name: Set Variables
     runs-on: ubuntu-latest
-    id: vars
 
     steps:
-      - run: |
+      - name:
+        id: vars
+        run: |
           echo ----------------------------------------------------------------
           echo Set Variables
           echo "VAR_A=hello" >> $GITHUB_OUTPUT
