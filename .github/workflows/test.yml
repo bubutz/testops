@@ -21,8 +21,8 @@ jobs:
           echo "VAR_B=world" >> $GITHUB_OUTPUT
 
     outputs:
-      VAR_A: ${{ steps.env-vars.outputs.VAR_A }}
-      VAR_B: ${{ steps.env-vars.outputs.VAR_B }}
+      VAR_A: ${{ steps.env_vars.outputs.VAR_A }}
+      VAR_B: ${{ steps.env_vars.outputs.VAR_B }}
 
   show-job-vars:
     name: Show job vars
