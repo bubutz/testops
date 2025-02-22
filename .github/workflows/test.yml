@@ -20,11 +20,11 @@ jobs:
         run: echo Always run
 
       - name: If fail
-        # if: env.AA == 'aaaa'
+        if: env.AA == 'aaaa'
         run: echo Should not run
 
       - name: If pass
-        # if: env.AA == 'aaa'
+        if: env.AA == 'aaa'
         run: echo Should run
 
   if-with-local-env:
