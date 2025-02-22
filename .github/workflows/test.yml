@@ -76,11 +76,11 @@ jobs:
 
     steps:
       - name: If miss
-        if: env.VAR_A == "helloooo"
+        if: ${{ env.VAR_A == "helloooo" }}
         run: |
           echo MISSSSS
 
       - name: If hit
-        if: env.VAR_A == "hello"
+        if: ${{ env.VAR_A == "hello" }}
         run: |
           echo OK
