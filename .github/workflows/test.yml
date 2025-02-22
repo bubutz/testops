@@ -79,14 +79,14 @@ jobs:
       #     echo "VAR_B=${{ needs.vars.outputs.VAR_B }}" >> $GITHUB_ENV
 
       - name: If hit
-        if: needs.vars.outputs.VAR_A == "hello"
+        # if: needs.vars.outputs.VAR_A == "hello"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
           echo OK
 
       - name: If miss
-        if: needs.vars.outpus.VAR_A == "helloooo"
+        # if: needs.vars.outpus.VAR_A == "helloooo"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
