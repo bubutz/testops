@@ -108,13 +108,11 @@ jobs:
     name: Test If Conditions
     runs-on: ubuntu-latest
 
-    # env:
-      # VAR_A: ${{ needs.vars.outputs.VAR_A }}
-      # VAR_A: hello
-      # VAR_B: ${{ needs.vars.outputs.VAR_B }}
-
     steps:
       - name: Setup Env
+        env:
+          VAR_A: ${{ needs.vars.outputs.VAR_A }}
+          VAR_B: ${{ needs.vars.outputs.VAR_B }}
         run: |
           echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
           echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
@@ -122,14 +120,14 @@ jobs:
           echo "VAR_B=${{ needs.vars.outputs.VAR_B }}" >> $GITHUB_OUTPUT
 
       - name: If hit
-        # if: env.VAR_A == "hello"
+        if: env.VAR_A == "hello"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
           echo OK
 
       - name: If miss
-        # if: env.VAR_A == "helloooo"
+        if: env.VAR_A == "helloooo"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
