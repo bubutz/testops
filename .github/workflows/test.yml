@@ -105,7 +105,7 @@ jobs:
 
   test-ifs-step:
     needs: [show-job-vars, show-step-vars]
-    name: Test If Conditions
+    name: Test If STEP
     runs-on: ubuntu-latest
 
     steps:
@@ -135,7 +135,7 @@ jobs:
 
   test-ifs-jobs:
     needs: [show-job-vars, show-step-vars]
-    name: Test If Conditions
+    name: Test If JOB
     runs-on: ubuntu-latest
 
     steps:
