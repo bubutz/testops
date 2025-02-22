@@ -69,6 +69,11 @@ jobs:
     name: Test If Conditions
     runs-on: ubuntu-latest
     needs: [show-job-vars, show-step-vars]
+
+    env:
+      VAR_A: ${{ needs.env-vars.outputs.VAR_A }}
+      VAR_B: ${{ needs.env-vars.outputs.VAR_B }}
+
     steps:
       - name: If miss
         if: VAR_A == "helloooo"
