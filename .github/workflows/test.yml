@@ -28,7 +28,8 @@ jobs:
         run: echo Should run
 
   vars:
-    needs: [if-with-global-env, if-with-local-env]
+    # needs: [if-with-global-env, if-with-local-env]
+    needs: [if-with-global-env]
     name: Set Variables
     runs-on: ubuntu-latest
 
