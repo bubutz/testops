@@ -109,29 +109,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Env
-        env:
-          VAR_A: ${{ needs.vars.outputs.VAR_A }}
-          VAR_B: ${{ needs.vars.outputs.VAR_B }}
-        run: |
-          echo \$VAR_A = $VAR_A
-          echo \$VAR_B = $VAR_B
-          echo env.VAR_A = ${{ env.VAR_A }}
-          echo env.VAR_B = ${{ env.VAR_B }}
-          echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
-          echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
-          echo "VAR_A=${{ needs.vars.outputs.VAR_A }}" >> $GITHUB_OUTPUT
-          echo "VAR_B=${{ needs.vars.outputs.VAR_B }}" >> $GITHUB_OUTPUT
+      # - name: Setup Env
+      #   env:
+      #     VAR_A: ${{ needs.vars.outputs.VAR_A }}
+      #     VAR_B: ${{ needs.vars.outputs.VAR_B }}
+      #   run: |
+      #     echo \$VAR_A = $VAR_A
+      #     echo \$VAR_B = $VAR_B
+      #     echo env.VAR_A = ${{ env.VAR_A }}
+      #     echo env.VAR_B = ${{ env.VAR_B }}
+      #     echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
+      #     echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
+      #     echo "VAR_A=${{ needs.vars.outputs.VAR_A }}" >> $GITHUB_OUTPUT
+      #     echo "VAR_B=${{ needs.vars.outputs.VAR_B }}" >> $GITHUB_OUTPUT
 
       - name: If hit
-        if: env.VAR_A == 'hello'
+        if: needs.vars.outputs.VAR_A == 'hello'
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
           echo OK
 
       - name: If miss
-        if: env.VAR_A == 'helloooo'
+        if: needs.vars.outputs.VAR_A == 'helloooo'
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
@@ -147,16 +147,6 @@ jobs:
       VAR_B: ${{ needs.vars.outputs.VAR_B }}
 
     steps:
-      - name: Output on Job level ENV
-        run: |
-          echo Show Variables
-          echo \$VAR_A = $VAR_A
-          echo \$VAR_B = $VAR_B
-          echo env.VAR_A = ${{ env.VAR_A }}
-          echo env.VAR_B = ${{ env.VAR_B }}
-          echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
-          echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
-
       - name: If hit
         if: env.VAR_A == 'hello'
         run: |
