@@ -12,7 +12,7 @@ env:
 
 jobs:
   if-with-global-env:
-    name: Set Variables
+    name: If with Global ENV
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +24,27 @@ jobs:
         run: echo Should not run
 
       - name: If pass
-        # if: env.AA == 'aaaa'
+        # if: env.AA == 'aaa'
+        run: echo Should run
+
+  if-with-local-env:
+    name: If with Local ENV
+    runs-on: ubuntu-latest
+
+    env:
+      AAA: aaa
+      BBB: bbb
+
+    steps:
+      - name: Always run
+        run: echo Always run
+
+      - name: If fail
+        # if: env.AAA == 'aaaa'
+        run: echo Should not run
+
+      - name: If pass
+        # if: env.AAA == 'aaa'
         run: echo Should run
 
   vars:
