@@ -6,8 +6,29 @@ on:
     branches: main
     paths: .github/workflows/*
 
+env:
+  AA: aaa
+  BB: bbb
+
 jobs:
+  if-with-global-env:
+    name: Set Variables
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Always run
+        run: echo Always run
+
+      - name: If fail
+        # if: env.AA == 'aaaa'
+        run: echo Should not run
+
+      - name: If pass
+        # if: env.AA == 'aaaa'
+        run: echo Should run
+
   vars:
+    needs: [if-with-global-env, if-with-local-env]
     name: Set Variables
     runs-on: ubuntu-latest
 
@@ -81,14 +102,14 @@ jobs:
           echo "VAR_B=${{ needs.vars.outputs.VAR_B }}" >> $GITHUB_OUTPUT
 
       - name: If hit
-        if: env.VAR_A == "hello"
+        # if: env.VAR_A == "hello"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
           echo OK
 
       - name: If miss
-        if: env.VAR_A == "helloooo"
+        # if: env.VAR_A == "helloooo"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
