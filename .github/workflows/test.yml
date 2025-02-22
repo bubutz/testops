@@ -27,7 +27,7 @@ jobs:
   show-job-vars:
     name: Show job vars
     runs-on: ubuntu-latest
-    needs: [set-vars]
+    needs: [env-vars]
 
     env:
       VAR_A: ${{ needs.env-vars.outputs.VAR_A }}
