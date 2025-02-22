@@ -38,10 +38,12 @@ jobs:
         run: |
           echo ----------------------------------------------------------------
           echo Show Variables
-          echo VAR_A = $VAR_A
-          echo VAR_B = $VAR_B
-          echo VAR_A = ${{ needs.env-vars.outputs.VAR_A }}
-          echo VAR_B = ${{ needs.env-vars.outputs.VAR_B }}
+          echo \$VAR_A = $VAR_A
+          echo \$VAR_B = $VAR_B
+          echo \${{ env.VAR_A }} = ${{ env.VAR_A }}
+          echo \${{ env.VAR_B }} = ${{ env.VAR_B }}
+          echo needs.VAR_A = ${{ needs.env-vars.outputs.VAR_A }}
+          echo needs.VAR_B = ${{ needs.env-vars.outputs.VAR_B }}
 
   show-step-vars:
     name: Show step vars
@@ -56,16 +58,24 @@ jobs:
         run: |
           echo ----------------------------------------------------------------
           echo Show Variables
-          echo VAR_A = $VAR_A
-          echo VAR_B = $VAR_B
-          echo VAR_A = ${{ needs.env-vars.outputs.VAR_A }}
-          echo VAR_B = ${{ needs.env-vars.outputs.VAR_B }}
+          echo \$VAR_A = $VAR_A
+          echo \$VAR_B = $VAR_B
+          echo \${{ env.VAR_A }} = ${{ env.VAR_A }}
+          echo \${{ env.VAR_B }} = ${{ env.VAR_B }}
+          echo needs.VAR_A = ${{ needs.env-vars.outputs.VAR_A }}
+          echo needs.VAR_B = ${{ needs.env-vars.outputs.VAR_B }}
 
-  test-ifs:
+  test-ifs-job:
     name: Test If Conditions
     runs-on: ubuntu-latest
     needs: [show-job-vars, show-step-vars]
     steps:
-      - run: |
-          echo ----------------------------------------------------------------
-          echo Set Variables
+      - name: If miss
+        if: VAR_A == "helloooo"
+        run: |
+          echo MISSSSS
+
+      - name: If hit
+        if: VAR_A == "hello"
+        run: |
+          echo OK
