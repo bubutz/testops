@@ -48,7 +48,7 @@ jobs:
   show-step-vars:
     name: Show step vars
     runs-on: ubuntu-latest
-    needs: [env-vars]
+    needs: [vars]
 
     steps:
       - name: Output on Job level ENV
