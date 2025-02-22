@@ -40,11 +40,11 @@ jobs:
         run: echo Always run
 
       - name: If fail
-        # if: env.AAA == 'aaaa'
+        if: env.AAA == 'aaaa'
         run: echo Should not run
 
       - name: If pass
-        # if: env.AAA == 'aaa'
+        if: env.AAA == 'aaa'
         run: echo Should run
 
   vars:
