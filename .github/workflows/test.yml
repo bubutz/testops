@@ -71,7 +71,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      VAR_A: ${{ needs.vars.outputs.VAR_A }}
+      # VAR_A: ${{ needs.vars.outputs.VAR_A }}
+      VAR_A: hello
       VAR_B: ${{ needs.vars.outputs.VAR_B }}
 
     steps:
