@@ -70,20 +70,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: [show-job-vars, show-step-vars]
 
-    env:
-      VAR_A: ${{ needs.vars.outputs.VAR_A }}
-      VAR_B: ${{ needs.vars.outputs.VAR_B }}
-
     steps:
+      - name: Setup vars
+        run: |
+          echo "VAR_A=${{ needs.vars.outputs.VAR_A }}" >> $GITHUB_ENV
+          echo "VAR_B=${{ needs.vars.outputs.VAR_B }}" >> $GITHUB_ENV
+
       - name: If miss
-        if: env.VAR_A == 'helloooo'
+        if: env.VAR_A == "helloooo"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
           echo MISSSSS
 
       - name: If hit
-        if: env.VAR_A == 'hello'
+        if: env.VAR_A == "hello"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
