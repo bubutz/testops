@@ -81,14 +81,14 @@ jobs:
           echo "VAR_B=${VAR_B}" >> $GITHUB_ENV
 
       - name: If miss
-        if: VAR_A == "helloooo"
+        if: env.VAR_A == "helloooo"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
           echo MISSSSS
 
       - name: If hit
-        if: VAR_A == "hello"
+        if: env.VAR_A == "hello"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
