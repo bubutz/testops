@@ -79,8 +79,8 @@ jobs:
           echo Show Variables
           echo \$VAR_A = $VAR_A
           echo \$VAR_B = $VAR_B
-          echo \${{ env.VAR_A }} = ${{ env.VAR_A }}
-          echo \${{ env.VAR_B }} = ${{ env.VAR_B }}
+          echo env.VAR_A = ${{ env.VAR_A }}
+          echo env.VAR_B = ${{ env.VAR_B }}
           echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
           echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
 
@@ -98,8 +98,8 @@ jobs:
           echo Show Variables
           echo \$VAR_A = $VAR_A
           echo \$VAR_B = $VAR_B
-          echo \${{ env.VAR_A }} = ${{ env.VAR_A }}
-          echo \${{ env.VAR_B }} = ${{ env.VAR_B }}
+          echo env.VAR_A = ${{ env.VAR_A }}
+          echo env.VAR_B = ${{ env.VAR_B }}
           echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
           echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
 
@@ -116,8 +116,8 @@ jobs:
         run: |
           echo \$VAR_A = $VAR_A
           echo \$VAR_B = $VAR_B
-          echo \${{ env.VAR_A }} = ${{ env.VAR_A }}
-          echo \${{ env.VAR_B }} = ${{ env.VAR_B }}
+          echo env.VAR_A = ${{ env.VAR_A }}
+          echo env.VAR_B = ${{ env.VAR_B }}
           echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
           echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
           echo "VAR_A=${{ needs.vars.outputs.VAR_A }}" >> $GITHUB_OUTPUT
@@ -147,12 +147,22 @@ jobs:
       VAR_B: ${{ needs.vars.outputs.VAR_B }}
 
     steps:
+      - name: Output on Job level ENV
+        run: |
+          echo Show Variables
+          echo \$VAR_A = $VAR_A
+          echo \$VAR_B = $VAR_B
+          echo env.VAR_A = ${{ env.VAR_A }}
+          echo env.VAR_B = ${{ env.VAR_B }}
+          echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
+          echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
+
       - name: Setup Env
         run: |
           echo \$VAR_A = $VAR_A
           echo \$VAR_B = $VAR_B
-          echo \${{ env.VAR_A }} = ${{ env.VAR_A }}
-          echo \${{ env.VAR_B }} = ${{ env.VAR_B }}
+          echo env.VAR_A = ${{ env.VAR_A }}
+          echo env.VAR_B = ${{ env.VAR_B }}
           echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
           echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
           echo "VAR_A=${{ needs.vars.outputs.VAR_A }}" >> $GITHUB_OUTPUT
