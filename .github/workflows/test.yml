@@ -65,7 +65,7 @@ jobs:
           echo needs.VAR_A = ${{ needs.env-vars.outputs.VAR_A }}
           echo needs.VAR_B = ${{ needs.env-vars.outputs.VAR_B }}
 
-  test-ifs-job:
+  test-ifs-steps:
     name: Test If Conditions
     runs-on: ubuntu-latest
     needs: [show-job-vars, show-step-vars]
@@ -76,11 +76,11 @@ jobs:
 
     steps:
       - name: If miss
-        if: ${{ needs.env-vars.outputs.VAR_A == "helloooo" }}
+        if: needs.env-vars.outputs.VAR_A == "helloooo"
         run: |
           echo MISSSSS
 
       - name: If hit
-        if: ${{ needs.env-vars.outputs.VAR_A == "hello" }}
+        if: needs.env-vars.outputs.VAR_A == "hello"
         run: |
           echo OK
