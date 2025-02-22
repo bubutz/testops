@@ -25,9 +25,9 @@ jobs:
       VAR_B: ${{ steps.env_vars.outputs.VAR_B }}
 
   show-job-vars:
+    needs: [vars]
     name: Show job vars
     runs-on: ubuntu-latest
-    needs: [vars]
 
     env:
       VAR_A: ${{ needs.vars.outputs.VAR_A }}
@@ -46,9 +46,9 @@ jobs:
           echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
 
   show-step-vars:
+    needs: [vars]
     name: Show step vars
     runs-on: ubuntu-latest
-    needs: [vars]
 
     steps:
       - name: Output on Job level ENV
@@ -66,9 +66,9 @@ jobs:
           echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
 
   test-ifs:
+    needs: [show-job-vars, show-step-vars]
     name: Test If Conditions
     runs-on: ubuntu-latest
-    needs: [show-job-vars, show-step-vars]
 
     env:
       VAR_A: ${{ needs.vars.outputs.VAR_A }}
@@ -83,7 +83,7 @@ jobs:
           echo OK
 
       - name: If miss
-        if: VAR_A == "helloooo"
+        if: env.VAR_A == "helloooo"
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
