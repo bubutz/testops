@@ -24,7 +24,7 @@ jobs:
   test-ifs:
     name: Test If Conditions
     runs-on: ubuntu@latest
-    needs: [test-ifs]
+    needs: [set-vars, test-ifs]
     steps:
       - run: |
           echo ----------------------------------------------------------------
