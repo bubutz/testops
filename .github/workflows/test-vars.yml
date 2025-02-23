@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: main
-    paths: .github/workflows/*
+    paths: .github/workflows/test-vars.yml
 
 permissions:
   contents: write
