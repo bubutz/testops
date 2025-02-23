@@ -18,7 +18,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
         with:
-          ref: uat
+          # ref: uat
           fetch-depth: 0
 
       # - name: Test commit push
@@ -43,11 +43,11 @@ jobs:
 
           # Read current ver from version.txt
           current_version=$(cat version.txt)
-          echo current_tag = $current_tag
+          echo current_version = $current_version
 
           # Create a git tag with the current version
           tag_exists=$(git tag -l "$current_version")
-          echo tag_exists $tag_exists
+          echo tag_exists = $tag_exists
           if [ -n "$tag_exists" ]; then
             git tag -d "$current_version"
           fi
