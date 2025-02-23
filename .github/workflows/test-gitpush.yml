@@ -55,8 +55,8 @@ jobs:
             git tag -d "$current_version" && echo deleted tag
             git tag -l
           fi
-          echo start; echo git tag $current_version
-          git tag "$current_version"; echo end
+          echo start; git tag "$current_version" && echo added tag
+          git tag -l ; echo end
 
           # push tag to repository
           git push origin "$current_version"
