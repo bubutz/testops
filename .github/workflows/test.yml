@@ -198,6 +198,8 @@ jobs:
       - name: Test upload new commit
         run: |
           git branch
+          git config --global user.email "guanpok86@hotmail.com"
+          git config --global user.name "bubutz"
           echo >> README.md
           git add README.md
           git commit -m "Testing commits"
