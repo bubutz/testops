@@ -38,10 +38,10 @@ jobs:
 
       - name: Test new tag
         run: |
-          git config user.email "guanpok86@hotmail.com"
-          git config user.name "bubutz"
+          # git config user.email "guanpok86@hotmail.com"
+          # git config user.name "bubutz"
 
-          BUILD_BRANCH=${{ github.refs }}
+          BUILD_BRANCH=${{ github.ref }}
           echo $BUILD_BRANCH
 
           # Read current ver from version.txt
