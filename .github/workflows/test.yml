@@ -203,4 +203,4 @@ jobs:
           echo >> README.md
           git add README.md
           git commit -m "Testing commits"
-          git push origin main
+          git push
