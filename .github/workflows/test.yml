@@ -6,6 +6,9 @@ on:
     branches: main
     paths: .github/workflows/*
 
+permissions:
+  contents: write
+
 env:
   AA: aaa
   BB: bbb
