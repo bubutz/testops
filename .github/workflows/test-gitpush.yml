@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-        refs: uat
+        ref: uat
         with:
           fetch-depth: 0
 
