@@ -56,7 +56,7 @@ jobs:
           fi
           git tag "$current_version"
 
-          # push tag to repo
+          # push tag to repository
           git push origin "$current_version"
 
           # delete branch if exists
