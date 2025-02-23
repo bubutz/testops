@@ -1,0 +1,190 @@
+name: test variables
+
+on:
+  workflow_dispatch:
+  push:
+    branches: main
+    paths: .github/workflows/*
+
+permissions:
+  contents: write
+
+env:
+  AA: aaa
+  BB: bbb
+
+jobs:
+  if-with-global-env:
+    name: If with Global ENV
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Always run
+        run: echo Always run
+
+      - name: If fail
+        if: env.AA == 'aaaa'
+        run: echo Should not run
+
+      - name: If pass
+        if: env.AA == 'aaa'
+        run: echo Should run
+
+  if-with-local-env:
+    name: If with Local ENV
+    runs-on: ubuntu-latest
+
+    env:
+      AAA: aaa
+      BBB: bbb
+
+    steps:
+      - name: Always run
+        run: echo Always run
+
+      - name: If fail
+        if: env.AAA == 'aaaa'
+        run: echo Should not run
+
+      - name: If pass
+        if: env.AAA == 'aaa'
+        run: echo Should run
+
+  vars:
+    needs: [if-with-global-env, if-with-local-env]
+    name: Set Variables
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set output vars
+        id: env_vars
+        run: |
+          echo Set Variables
+          echo "VAR_A=hello" >> $GITHUB_OUTPUT
+          echo "VAR_B=world" >> $GITHUB_OUTPUT
+
+    outputs:
+      VAR_A: ${{ steps.env_vars.outputs.VAR_A }}
+      VAR_B: ${{ steps.env_vars.outputs.VAR_B }}
+
+  show-job-vars:
+    needs: [vars]
+    name: Show job vars
+    runs-on: ubuntu-latest
+
+    env:
+      VAR_A: ${{ needs.vars.outputs.VAR_A }}
+      VAR_B: ${{ needs.vars.outputs.VAR_B }}
+
+    steps:
+      - name: Output on Job level ENV
+        run: |
+          echo Show Variables
+          echo \$VAR_A = $VAR_A
+          echo \$VAR_B = $VAR_B
+          echo env.VAR_A = ${{ env.VAR_A }}
+          echo env.VAR_B = ${{ env.VAR_B }}
+          echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
+          echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
+
+  show-step-vars:
+    needs: [vars]
+    name: Show step vars
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Output on Job level ENV
+        env:
+          VAR_A: ${{ needs.vars.outputs.VAR_A }}
+          VAR_B: ${{ needs.vars.outputs.VAR_B }}
+        run: |
+          echo Show Variables
+          echo \$VAR_A = $VAR_A
+          echo \$VAR_B = $VAR_B
+          echo env.VAR_A = ${{ env.VAR_A }}
+          echo env.VAR_B = ${{ env.VAR_B }}
+          echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
+          echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
+
+  test-ifs-step:
+    needs: [vars, show-job-vars, show-step-vars]
+    name: Test If STEP
+    runs-on: ubuntu-latest
+
+    steps:
+      # - name: Setup Env
+      #   env:
+      #     VAR_A: ${{ needs.vars.outputs.VAR_A }}
+      #     VAR_B: ${{ needs.vars.outputs.VAR_B }}
+      #   run: |
+      #     echo \$VAR_A = $VAR_A
+      #     echo \$VAR_B = $VAR_B
+      #     echo env.VAR_A = ${{ env.VAR_A }}
+      #     echo env.VAR_B = ${{ env.VAR_B }}
+      #     echo needs.VAR_A = ${{ needs.vars.outputs.VAR_A }}
+      #     echo needs.VAR_B = ${{ needs.vars.outputs.VAR_B }}
+      #     echo "VAR_A=${{ needs.vars.outputs.VAR_A }}" >> $GITHUB_OUTPUT
+      #     echo "VAR_B=${{ needs.vars.outputs.VAR_B }}" >> $GITHUB_OUTPUT
+
+      - name: If hit A and B
+        if: |
+          needs.vars.outputs.VAR_A == 'hello' &&
+          needs.vars.outputs.VAR_B == 'world'
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If hit A or B
+        if: |
+          needs.vars.outputs.VAR_A == 'helloooo' ||
+          needs.vars.outputs.VAR_B == 'world'
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If miss
+        if: |
+          needs.vars.outputs.VAR_A == 'helloooo'
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo MISSSSS
+
+  test-ifs-jobs:
+    needs: [vars,show-job-vars, show-step-vars]
+    name: Test If JOB
+    runs-on: ubuntu-latest
+
+    env:
+      VAR_A: ${{ needs.vars.outputs.VAR_A }}
+      VAR_B: ${{ needs.vars.outputs.VAR_B }}
+
+    steps:
+      - name: If hit A and B
+        if: |
+          env.VAR_A == 'hello' &&
+          env.VAR_B == 'world'
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If hit A or B
+        if: |
+          env.VAR_A == 'helloooo' ||
+          env.VAR_B == 'world'
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If miss
+        if: env.VAR_A == 'helloooo'
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo MISSSSS
