@@ -36,49 +36,49 @@ jobs:
           git push
           git log --oneline | head -3
 
-      # - name: Test upload new commit
-      #   run: |
-      #     BUILD_BRANCH=${{ github.refs }}
-      #     echo $BUILD_BRANCH
-      #
-      #     # Read current ver from version.txt
-      #     current_tag=$(cat version.txt)
-      #     echo current_tag = $current_tag
-      #
-      #     # Create a git tag with the current version
-      #     tag_exists=$(git tag -l "$current_version")
-      #     if [ -n "$tag_exists" ]; then
-      #       git tag -d "$current_version"
-      #     fi
-      #     git tag "$current_version"
-      #
-      #     # push tag to repo
-      #     git push origin "$current_version"
-      #
-      #     # delete branch if exists
-      #     if git show-ref -q --heads $BUILD_BRANCH; then
-      #       git branch -D $BUILD_BRANCH
-      #     fi
-      #     git fetch
-      #     git switch $BUILD_BRANCH
-      #     git pull --no-rebase
-      #
-      #     # split the version into major, minor and patch components
-      #     IFS='.' read -r major minor patch <<< "${current_version//v/}"
-      #
-      #     # increment the patch version
-      #     patch=$((patch +1))
-      #
-      #     # create the new version string
-      #     new_version="v$major.$minor.$patch"
-      #
-      #     # update version.txt with new version
-      #     echo "$new_version" > version.txt
-      #
-      #     # commit change to version.txt
-      #     git add version.txt
-      #     git commit --author="bubutz <guanpok86@hotmail.com>" -m "Bump version to $new_version"
-      #
-      #     # push to repo
-      #     git push
-      #     git checkout "$current_version"
+      - name: Test new tag
+        run: |
+          BUILD_BRANCH=${{ github.refs }}
+          echo $BUILD_BRANCH
+
+          # Read current ver from version.txt
+          current_tag=$(cat version.txt)
+          echo current_tag = $current_tag
+
+          # Create a git tag with the current version
+          tag_exists=$(git tag -l "$current_version")
+          if [ -n "$tag_exists" ]; then
+            git tag -d "$current_version"
+          fi
+          git tag "$current_version"
+
+          # push tag to repo
+          git push origin "$current_version"
+
+          # delete branch if exists
+          if git show-ref -q --heads $BUILD_BRANCH; then
+            git branch -D $BUILD_BRANCH
+          fi
+          git fetch
+          git switch $BUILD_BRANCH
+          git pull --no-rebase
+
+          # split the version into major, minor and patch components
+          IFS='.' read -r major minor patch <<< "${current_version//v/}"
+
+          # increment the patch version
+          patch=$((patch +1))
+
+          # create the new version string
+          new_version="v$major.$minor.$patch"
+
+          # update version.txt with new version
+          echo "$new_version" > version.txt
+
+          # commit change to version.txt
+          git add version.txt
+          git commit --author="bubutz <guanpok86@hotmail.com>" -m "Bump version to $new_version"
+
+          # push to repo
+          git push
+          git checkout "$current_version"
