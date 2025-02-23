@@ -52,7 +52,8 @@ jobs:
           tag_exists=$(git tag -l "$current_version")
           echo tag_exists = $tag_exists
           if [ -n "$tag_exists" ]; then
-            git tag -d "$current_version"
+            git tag -d "$current_version" && echo deleted tag
+            git tag -l
           fi
           git tag "$current_version"
 
