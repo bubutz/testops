@@ -53,7 +53,7 @@ jobs:
           echo tag_exists = $tag_exists
           if [ -n "$tag_exists" ]; then
             # git tag -d "$current_version" && echo deleted tag
-            git tag -d origin "$current_version" && echo deleted tag
+            git push -d origin "$current_version" && echo deleted tag
             git tag -l
           fi
           echo start; git tag "$current_version" && echo added tag
