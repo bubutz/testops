@@ -1,4 +1,4 @@
-name: test variables
+name: test git tags
 
 on:
   workflow_dispatch:
@@ -15,11 +15,11 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-        with:
-          # ref: uat
-          fetch-depth: 0
+      # - name: Checkout Repo
+      #   uses: actions/checkout@v4
+      #   with:
+      #     # ref: uat
+      #     fetch-depth: 0
 
       # - name: Test commit push
       #   run: |
