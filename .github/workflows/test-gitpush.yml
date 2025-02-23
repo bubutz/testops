@@ -21,20 +21,20 @@ jobs:
           ref: uat
           fetch-depth: 0
 
-      - name: Test commit push
-        run: |
-          git branch -vv
-          git checkout main
-          git branch -vv
-          echo >> README.md
-          git add README.md
-
-          git config user.email "guanpok86@hotmail.com"
-          git config user.name "bubutz"
-
-          git commit -m "test commit"
-          git push
-          git log --oneline | head -3
+      # - name: Test commit push
+      #   run: |
+      #     git branch -vv
+      #     git checkout main
+      #     git branch -vv
+      #     echo >> README.md
+      #     git add README.md
+      #
+      #     git config user.email "guanpok86@hotmail.com"
+      #     git config user.name "bubutz"
+      #
+      #     git commit -m "test commit"
+      #     git push
+      #     git log --oneline | head -3
 
       - name: Test new tag
         run: |
@@ -42,11 +42,12 @@ jobs:
           echo $BUILD_BRANCH
 
           # Read current ver from version.txt
-          current_tag=$(cat version.txt)
+          current_version=$(cat version.txt)
           echo current_tag = $current_tag
 
           # Create a git tag with the current version
           tag_exists=$(git tag -l "$current_version")
+          echo tag_exists $tag_exists
           if [ -n "$tag_exists" ]; then
             git tag -d "$current_version"
           fi
@@ -65,15 +66,22 @@ jobs:
 
           # split the version into major, minor and patch components
           IFS='.' read -r major minor patch <<< "${current_version//v/}"
+          echo major $major
+          echo minor $minor
+          echo patch $patch
 
           # increment the patch version
           patch=$((patch +1))
+          echo patch $patch
 
           # create the new version string
           new_version="v$major.$minor.$patch"
+          echo new_version $new_version
 
           # update version.txt with new version
           echo "$new_version" > version.txt
+          echo cat version.txt
+          cat version.txt
 
           # commit change to version.txt
           git add version.txt
