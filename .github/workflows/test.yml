@@ -159,8 +159,21 @@ jobs:
       VAR_B: ${{ needs.vars.outputs.VAR_B }}
 
     steps:
-      - name: If hit
-        if: env.VAR_A == 'hello'
+      - name: If hit A and B
+        if: |
+          env.VAR_A == 'hello' &&
+          env.VAR_B == 'world'
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If hit A or B
+        if: |
+          env.VAR_A == 'helloooo' ||
+          env.VAR_B == 'world'
+
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
@@ -172,3 +185,20 @@ jobs:
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
           echo MISSSSS
+
+  test-upload-file:
+    needs: vars
+    name: Test git upload
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Test upload new commit
+        run: |
+          git branch
+          echo >> README.md
+          git add README.md
+          git commit -m "Testing commits"
+          git push origin main
