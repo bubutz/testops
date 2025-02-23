@@ -38,6 +38,9 @@ jobs:
 
       - name: Test new tag
         run: |
+          git config user.email "guanpok86@hotmail.com"
+          git config user.name "bubutz"
+
           BUILD_BRANCH=${{ github.refs }}
           echo $BUILD_BRANCH
 
