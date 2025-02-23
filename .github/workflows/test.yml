@@ -123,10 +123,19 @@ jobs:
       #     echo "VAR_A=${{ needs.vars.outputs.VAR_A }}" >> $GITHUB_OUTPUT
       #     echo "VAR_B=${{ needs.vars.outputs.VAR_B }}" >> $GITHUB_OUTPUT
 
-      - name: If hit
-        if:
-          - needs.vars.outputs.VAR_A == 'hello'
-          - needs.vars.outputs.VAR_B == 'world'
+      - name: If hit A and B
+        if: |
+          needs.vars.outputs.VAR_A == 'hello' &&
+          needs.vars.outputs.VAR_B == 'world'
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If hit A or B
+        if: |
+          needs.vars.outputs.VAR_A == 'helloooo' ||
+          needs.vars.outputs.VAR_B == 'world'
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
