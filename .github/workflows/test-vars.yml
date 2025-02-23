@@ -182,6 +182,36 @@ jobs:
           echo VAR_B $VAR_B
           echo OK
 
+      - name: If hit A and B or AA
+        if: |
+          env.VAR_A == 'hello' &&
+          ( env.VAR_B == 'world' || env.AA == 'aaa' )
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If hit A and B or AA
+        if: |
+          env.VAR_A == 'hello' &&
+          ( env.VAR_B == 'worldd' || env.AA == 'aaa' )
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If hit A and B or AA
+        if: |
+          env.VAR_A == 'hello' &&
+          ( env.VAR_B == 'world' || env.AA == 'aaaa' )
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
       - name: If miss
         if: env.VAR_A == 'helloooo'
         run: |
