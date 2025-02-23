@@ -28,9 +28,11 @@ jobs:
           git branch -vv
           echo >> README.md
           git add README.md
-          git commit --author="bubutz <guanpok86@hotmail.com>" -m "test commit"
-          git config user.email "guanpok86@hotmail.com"
-          git config user.name "bubutz"
+
+          git config --global user.email "guanpok86@hotmail.com"
+          git config --global user.name "bubutz"
+
+          git commit -m "test commit"
           git push
           git log --oneline | head -3
 
