@@ -13,9 +13,9 @@ jobs:
 
     steps:
       - id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: tj-actions/changed-files@v45
 
-      - run: echo ${{ steps.files.outputs.all }}
+      - run: printf "%s\n" "${{ steps.files.outputs.all }}"
 
   changeset:
     name: Test Changeset
