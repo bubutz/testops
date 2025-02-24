@@ -102,8 +102,9 @@ jobs:
     name: Test git tag no contents write permissions
     runs-on: ubuntu-latest
 
-    # permissions:
-    #   contents: write
+    # Required again for another job otherwise will get 403 permissions denied
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Repo
