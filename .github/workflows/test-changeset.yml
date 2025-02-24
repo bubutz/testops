@@ -2,9 +2,9 @@ name: test changeset (filechange)
 
 on:
   workflow_dispatch:
-  push:
-    branches: main
-    paths: .github/workflows/test-changeset.yml
+  # push:
+  #   branches: main
+  #   paths: .github/workflows/test-changeset.yml
 
 jobs:
   changeset:
@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     if: |
-      contains(github.event.head_commit.message, 'dir1/') ||
-      contains(github.event.head_commit.message, 'file2.txt')
+      contains(github.event.head_commit.modified, 'dir1/') ||
+      contains(github.event.head_commit.modified, 'file2.txt')
 
     steps:
       - name: Hit
