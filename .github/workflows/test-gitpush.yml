@@ -98,7 +98,7 @@ jobs:
       #     git checkout "$current_version"
 
 
-  test-git-tag:
+  test-git-tag-noperm:
     name: Test git tag no contents write permissions
     runs-on: ubuntu-latest
 
