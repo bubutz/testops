@@ -7,6 +7,16 @@ on:
   #   paths: .github/workflows/test-changeset.yml
 
 jobs:
+  getfilechange:
+    name: Get file changed
+    runs-on: ubuntu-latest
+
+    steps:
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+
+      - run: echo ${{ steps.files.outputs.all }}
+
   changeset:
     name: Test Changeset
     runs-on: ubuntu-latest
