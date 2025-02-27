@@ -35,8 +35,8 @@ jobs:
           sudo tar xvzf javajdk18.tar.gz -C /usr/lib/jvm
           ls -lAtr /usr/lib/jvm
           ls -lA /usr/lib/jvm/zulu8.84.0.15-ca-jdk8.0.442-linux_x64
-          sudo update-alternatives --install "/usr/bin/java" "java" "/usr/bin/jvm/jdk1.8.0_442/bin/java" 1
-          sudo update-alternatives --set java /usr/bin/jvm/jdk1.8.0_442/bin/java
+          sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/zulu8.84.0.15-ca-jdk8.0.442-linux_x64/bin/java" 1
+          sudo update-alternatives --set java /usr/lib/jvm/zulu8.84.0.15-ca-jdk8.0.442-linux_x64/bin/java
           echo ________________________________________________
 
       - run: java -version || java version
