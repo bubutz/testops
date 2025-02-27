@@ -40,3 +40,4 @@ jobs:
           echo ________________________________________________
 
       - run: java -version || java version
+      - run: echo $JAVA_HOME
