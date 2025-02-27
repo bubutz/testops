@@ -32,7 +32,7 @@ jobs:
           type javajdk18.tar.gz
           head javajdk18.tar.gz
           echo ________________________________________________
-          tar -xf javajdk18.tar.xz -C .
+          tar -xf javajdk18.tar.gz -C .
           la -lA
           echo ________________________________________________
           sudo tar xvzf javajdk18.tar.gz -C /usr/lib/jvm
