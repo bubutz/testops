@@ -27,10 +27,10 @@ jobs:
           wget --no-check-certificate -O javajdk18.tar.gz https://cdn.azul.com/zulu/bin/zulu8.84.0.15-ca-jdk8.0.442-linux_x64.tar.gz
           # wget --no-check-certificate -O javajdk18.tar.xz https://developers.redhat.com/content-gateway/file/openjdk/1.8.0.442/java-1.8.0-openjdk-portable-1.8.0.442.b06-1.portable.jdk.el.x86_64.tar.xz
           echo ________________________________________________
-          ls -lA javajdk18.tar.xz
-          file javajdk18.tar.xz
-          type javajdk18.tar.xz
-          head javajdk18.tar.xz
+          ls -lA javajdk18.tar.gz
+          file javajdk18.tar.gz
+          type javajdk18.tar.gz
+          head javajdk18.tar.gz
           echo ________________________________________________
           tar -xf javajdk18.tar.xz -C .
           la -lA
