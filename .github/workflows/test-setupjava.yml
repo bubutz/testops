@@ -2,9 +2,9 @@ name: test changeset (filechange)
 
 on:
   workflow_dispatch:
-  push:
-    branches: main
-    paths: .github/workflows/test-setupjava.yml
+  # push:
+  #   branches: main
+  #   paths: .github/workflows/test-changeset.yml
 
 jobs:
   setupjava:
@@ -17,5 +17,9 @@ jobs:
       - uses: oracle-actions/setup-java@v1
         with:
           website: oracle.com
-          version: 8
+          release: 23
       - run: java -version || java version
+      - uses: oracle-actions/setup-java@v1
+        with:
+          website: oracle.com
+          release: 8
