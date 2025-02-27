@@ -1,10 +1,10 @@
-name: test changeset (filechange)
+name: test jdk8
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches: main
-  #   paths: .github/workflows/test-changeset.yml
+  push:
+    branches: main
+    paths: .github/workflows/test-setupjava.yml
 
 jobs:
   setupjava:
