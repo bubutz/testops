@@ -182,9 +182,65 @@ jobs:
           echo VAR_B $VAR_B
           echo OK
 
+      - name: If hit A and B or AA
+        if: |
+          env.VAR_A == 'hello' &&
+          ( env.VAR_B == 'world' || env.AA == 'aaa' )
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If hit A and B or AA
+        if: |
+          env.VAR_A == 'hello' &&
+          ( env.VAR_B == 'worldd' || env.AA == 'aaa' )
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
+      - name: If hit A and B or AA
+        if: |
+          env.VAR_A == 'hello' &&
+          ( env.VAR_B == 'world' || env.AA == 'aaaa' )
+
+        run: |
+          echo VAR_A $VAR_A
+          echo VAR_B $VAR_B
+          echo OK
+
       - name: If miss
         if: env.VAR_A == 'helloooo'
         run: |
           echo VAR_A $VAR_A
           echo VAR_B $VAR_B
           echo MISSSSS
+
+
+  test-ifs-jobs-hit:
+    needs: [vars,show-job-vars, show-step-vars]
+    name: Test If JOB hit
+    runs-on: ubuntu-latest
+
+    if: |
+      needs.vars.outputs.VAR_A == 'hello' ||
+      needs.vars.outputs.VAR_B == 'world'
+
+    steps:
+      - name: Hit
+        run: echo hitttttt
+
+
+  test-ifs-jobs-miss:
+    needs: [vars,show-job-vars, show-step-vars]
+    name: Test If JOB miss
+    runs-on: ubuntu-latest
+
+    if: needs.vars.outputs.VAR_A == 'hellooo'
+
+    steps:
+      - name: Miss
+        run: echo misssss

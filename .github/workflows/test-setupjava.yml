@@ -1,0 +1,42 @@
+name: test jdk8
+
+on:
+  workflow_dispatch:
+  push:
+    branches: main
+    paths: .github/workflows/test-setupjava.yml
+
+jobs:
+  setupjava:
+    name: setup java
+    runs-on: ubuntu-latest
+    # container: oraclelinux:8
+
+    steps:
+
+      - run: java -version || java version
+      # - uses: oracle-actions/setup-java@v1
+      #   with:
+      #     website: oracle.com
+      #     release: 23
+      # - run: java -version || java version
+
+      # - run: sudo apt update -y && sudo apt install -y wget
+      - run: |
+          set +e
+          wget -q --no-check-certificate -O javajdk18.tar.gz https://cdn.azul.com/zulu/bin/zulu8.84.0.15-ca-jdk8.0.442-linux_x64.tar.gz
+          # wget --no-check-certificate -O javajdk18.tar.xz https://developers.redhat.com/content-gateway/file/openjdk/1.8.0.442/java-1.8.0-openjdk-portable-1.8.0.442.b06-1.portable.jdk.el.x86_64.tar.xz
+          echo ________________________________________________
+          ls -lA javajdk18.tar.gz
+          file javajdk18.tar.gz
+          type javajdk18.tar.gz
+          head javajdk18.tar.gz
+          echo ________________________________________________
+          sudo tar xvzf javajdk18.tar.gz -C /usr/lib/jvm
+          ls -lAtr /usr/lib/jvm
+          ls -lA /usr/lib/jvm/zulu8.84.0.15-ca-jdk8.0.442-linux_x64
+          sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/zulu8.84.0.15-ca-jdk8.0.442-linux_x64/bin/java" 1
+          sudo update-alternatives --set java /usr/lib/jvm/zulu8.84.0.15-ca-jdk8.0.442-linux_x64/bin/java
+          echo ________________________________________________
+
+      - run: java -version || java version

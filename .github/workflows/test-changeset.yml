@@ -1,0 +1,64 @@
+name: test changeset (filechange)
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: main
+  #   paths: .github/workflows/test-changeset.yml
+
+jobs:
+  getfilechange:
+    name: Get file changed
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check changed files
+        id: changed_files
+        uses: tj-actions/changed-files@v45
+        with:
+          files_yaml: |
+            f_dir:
+              - "f/dir1/*"
+            dir:
+              - "dir1/*"
+            oth:
+              - "file2.txt"
+
+      - name: Output
+        run: |
+          echo f_dir ${{ steps.changed_files.f_dir_all_changed_and_modified_files }}
+          echo dir ${{ steps.changed_files.dir_all_changed_and_modified_files }}
+          echo oth ${{ steps.changed_files.oth_all_changed_and_modified_files }}
+
+  change_hit:
+    name: Test Changeset Hit
+    needs: [getfilechange]
+    runs-on: ubuntu-latest
+
+    if: |
+      needs.getfilechange.outputs.f_dir_any_changed == 'true' ||
+      needs.getfilechange.outputs.dir_any_changed == 'true'
+
+    steps:
+      - name: Hit
+        run: |
+          echo hit
+
+  change_miss:
+    name: Test Changeset Miss
+    needs: [getfilechange]
+    runs-on: ubuntu-latest
+
+    if: |
+      needs.getfilechange.outputs.f_dir_any_changed == 'true' &&
+      needs.getfilechange.outputs.dir_any_changed == 'true'
+
+    steps:
+      - name: Hit
+        run: |
+          echo hit
+
