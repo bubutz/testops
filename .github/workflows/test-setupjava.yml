@@ -21,11 +21,7 @@ jobs:
       #     release: 23
       # - run: java -version || java version
 
-      - run: |
-          set +e
-          sudo apt update -y
-          sudo apt install -y wget
-          which wget
+      - run: sudo apt update -y && sudo apt install -y wget
       - run: |
           set +e
           wget --no-check-certificate -O javajdk18.tar.xz https://developers.redhat.com/content-gateway/file/openjdk/1.8.0.442/java-1.8.0-openjdk-portable-1.8.0.442.b06-1.portable.jdk.el.x86_64.tar.xz
