@@ -10,16 +10,13 @@ jobs:
   setupjava:
     name: setup java
     runs-on: ubuntu-latest
+    container: oraclelinux:8
 
     steps:
 
       - run: java -version || java version
-      - uses: oracle-actions/setup-java@v1
-        with:
-          website: oracle.com
-          release: 23
-      - run: java -version || java version
-      - uses: oracle-actions/setup-java@v1
-        with:
-          # website: oracle.com
-          release: 8
+      # - uses: oracle-actions/setup-java@v1
+      #   with:
+      #     website: oracle.com
+      #     release: 23
+      # - run: java -version || java version
