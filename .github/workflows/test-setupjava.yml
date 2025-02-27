@@ -14,7 +14,7 @@ jobs:
 
     steps:
 
-      # - run: java -version || java version
+      - run: java -version || java version
       # - uses: oracle-actions/setup-java@v1
       #   with:
       #     website: oracle.com
@@ -35,3 +35,10 @@ jobs:
           tar -xf javajdk18.tar.xz -C .
           la -lA
           echo ________________________________________________
+          sudo tar xvzf javajdk18.tar.gz -C /usr/lib/jvm
+          ls -lAtr /usr/lib/jvm
+          sudo update-alternatives --install "/usr/bin/java" "java" "/usr/bin/jvm/jdk1.8.0_442/bin/java" 1
+          sudo update-alternatives --set java /usr/bin/jvm/jdk1.8.0_442/bin/java
+          echo ________________________________________________
+
+      - run: java -version || java version
