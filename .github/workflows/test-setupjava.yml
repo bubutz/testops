@@ -25,9 +25,11 @@ jobs:
       - run: |
           set +e
           wget --no-check-certificate -O javajdk18.tar.xz https://developers.redhat.com/content-gateway/file/openjdk/1.8.0.442/java-1.8.0-openjdk-portable-1.8.0.442.b06-1.portable.jdk.el.x86_64.tar.xz
-          ls -lA java*
-          file java*
-          type java*
+          echo ________________________________________________
+          ls -lA javajdk18.tar.xz
+          file javajdk18.tar.xz
+          type javajdk18.tar.xz
+          head javajdk18.tar.xz
           echo ________________________________________________
           tar -xf javajdk18.tar.xz -C .
           la -lA
