@@ -18,3 +18,4 @@ jobs:
         with:
           website: oracle.com
           release: 8
+      - run: java -version || java version
