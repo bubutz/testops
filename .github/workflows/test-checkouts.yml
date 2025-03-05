@@ -17,6 +17,7 @@ jobs:
     steps:
       - name: Checkout ${{ inputs.BRANCH }}
         uses: actions/checkout@v4
-        ref: ${{ inputs.BRANCH }}
+        with:
+          ref: ${{ inputs.BRANCH }}
 
       - run: ls -lA
