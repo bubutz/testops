@@ -28,7 +28,8 @@ jobs:
 
   testrun:
     name: Test runner
-    runs-on: ${{ needs.vars.outputs.RUNNER }}
+    runs-on: ubuntu-latest
+    # runs-on: ${{ needs.vars.outputs.RUNNER }}
     needs: [vars]
     steps:
       - name: Checkout ${{ inputs.BRANCH }}
@@ -38,3 +39,4 @@ jobs:
       - run: |
           ls -la
           cat /etc/os-release
+          echo ${{ needs.vars.outputs.RUNNER }}
