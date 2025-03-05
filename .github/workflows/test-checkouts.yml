@@ -28,7 +28,7 @@ jobs:
 
   testrun:
     name: Test runner
-    runs-on: ${{ needs.testcheckout.outputs.RUNNER }}
+    runs-on: ${{ needs.vars.outputs.RUNNER }}
     needs:
       - vars
     steps:
