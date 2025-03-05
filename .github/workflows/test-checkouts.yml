@@ -35,4 +35,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.BRANCH }}
-      - run: ls -la
+      - run: |
+          ls -la
+          cat /etc/os-release
