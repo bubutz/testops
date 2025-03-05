@@ -1,0 +1,19 @@
+name: test checkout
+
+on:
+  workflow_dispatch:
+    inputs:
+      BRANCH:
+        description: Select branch
+        type: choice
+        options:
+          - 'main'
+          - 'uat'
+
+jobs:
+  testcheckout:
+    name: Test Checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ${{ inputs.BRANCH }}
+        uses: actions/checkout@v4
