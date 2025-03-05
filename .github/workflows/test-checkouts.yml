@@ -19,7 +19,7 @@ jobs:
         run: |
           if [ "${{ inputs.BRANCH }}" = "main" ]; then
               echo "RUNNER=ubuntu-latest" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.BRANCH }}" = "main" ]; then
+          elif [ "${{ inputs.BRANCH }}" = "uat" ]; then
               echo "RUNNER=macos-latest" >> $GITHUB_OUTPUT
           fi
 
@@ -28,8 +28,7 @@ jobs:
 
   testrun:
     name: Test runner
-    runs-on: ubuntu-latest
-    # runs-on: ${{ needs.vars.outputs.RUNNER }}
+    runs-on: ${{ needs.vars.outputs.RUNNER }}
     needs: [vars]
     steps:
       - name: Checkout ${{ inputs.BRANCH }}
@@ -39,4 +38,3 @@ jobs:
       - run: |
           ls -la
           cat /etc/os-release
-          echo ${{ needs.vars.outputs.RUNNER }}
