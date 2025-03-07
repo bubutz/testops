@@ -37,4 +37,3 @@ jobs:
           ref: ${{ inputs.BRANCH }}
       - run: |
           ls -la
-          cat /etc/os-release
