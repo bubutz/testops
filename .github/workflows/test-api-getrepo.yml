@@ -8,9 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo "${{ toJson(github) }}"
-      - run: which jq
-      - run: echo "${{ github }}"
-      - run: echo "${{ toJson(github) }}" | jq "."
+      - run: |
+          a="${{ toJson(github) }}"
+          jq "." << $a
       - run: echo "${{ toJson(github) }}" | jq ".event"
       - run: echo "${{ toJson(github) }}" | jq ".event.repository"
       - run: echo "${{ toJson(github) }}" | jq ".event.repository.default_branch"
