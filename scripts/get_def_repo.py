@@ -5,16 +5,14 @@ import requests
 import json
 
 
-def all_rules(headers, url):
+def all_repo_rules(headers, url):
     return requests.get(url, headers=headers)
 
+def branch_rules(branch_name, headers, url):
 
 def main():
-    print("argv 1 TOK : ", sys.argv[1])
     TOK = sys.argv[1]
-    print("argv 2 ORG : ", sys.argv[2])
     ORG = sys.argv[2]
-    print("argv 3 REPO: ", sys.argv[3])
     REPO = sys.argv[3]
     headers = {
         "Authorization": f"Bearer {TOK}",
@@ -22,13 +20,16 @@ def main():
         "X-GitHub-Api-Version": "2022-11-28"
     }
     url = f'https://api.github.com/repos/{ORG}/{REPO}/rulesets'
-    print("URL: ", url)
-    repo_allrules = branch_details(headers, url)
+    repo_allrules = all_repo_rules(headers, url)
 
     # print("retval:", repo_info)
     print("_" * 50)
     print(json.dumps(repo_info.content, indent=4))
 
+
+    branch_rule = branch_rules("main", headers, url)
+    print("_" * 50)
+    print(json.dumps(branch_rule.content, indent=4))
 
 if __name__ == "__main__":
     main()
