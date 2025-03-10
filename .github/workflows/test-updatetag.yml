@@ -1,10 +1,6 @@
-# .github/workflows/bump-tag.yml
-name: Bump Tag
+name: test update tag
 
-on:
-  push:
-    branches:
-      - main
+on: workflow_dispatch
 
 jobs:
   bump-tag:
