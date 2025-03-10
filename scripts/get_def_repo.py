@@ -10,8 +10,9 @@ def branch_details(headers, url):
 
 
 def main():
+    TOK = "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"
     print("argv 1 TOK : ", sys.argv[1])
-    TOK = sys.argv[1]
+    # TOK = sys.argv[1]
     print("argv 2 ORG : ", sys.argv[2])
     ORG = sys.argv[2]
     print("argv 3 REPO: ", sys.argv[3])
