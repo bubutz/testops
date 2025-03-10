@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: echo "${{ toJson(github) }}"
       - run: which jq
-      - run: echo "${{ toJson(github) }}" | jq
+      - run: echo "${{ github }}"
       - run: echo "${{ toJson(github) }}" | jq "."
       - run: echo "${{ toJson(github) }}" | jq ".event"
       - run: echo "${{ toJson(github) }}" | jq ".event.repository"
