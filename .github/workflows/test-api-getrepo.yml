@@ -10,13 +10,9 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
+      - name: Get repo
         env:
           TOK: ${{ secrets.ENT_TOKEN }}
-        run: |
-          curl -L \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${TOK}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/bubutz/testops
-
+          ORG: bubutz
+          REPO: testops
+        run: python3 scripts/get_def_repo.py $TOK $ORG $REPO
