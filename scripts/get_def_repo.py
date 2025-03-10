@@ -21,7 +21,7 @@ def main():
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28"
     }
-    url = f'https://api.github.com/repos/{ORG}/{REPO}'
+    url = f'https://api.github.com/repos/{ORG}/{REPO}/rulesets'
     print("URL: ", url)
     repo_info = branch_details(headers, url)
 
