@@ -25,7 +25,9 @@ def main():
     print("URL: ", url)
     repo_info = branch_details(headers, url)
 
-    print(repo_info)
+    print("retval:", repo_info)
+    print("content:")
+    print(repo_info.content)
 
 
 if __name__ == "__main__":
