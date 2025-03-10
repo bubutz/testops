@@ -5,7 +5,7 @@ import requests
 import json
 
 
-def branch_details(headers, url):
+def all_rules(headers, url):
     return requests.get(url, headers=headers)
 
 
@@ -23,11 +23,11 @@ def main():
     }
     url = f'https://api.github.com/repos/{ORG}/{REPO}/rulesets'
     print("URL: ", url)
-    repo_info = branch_details(headers, url)
+    repo_allrules = branch_details(headers, url)
 
-    print("retval:", repo_info)
-    print("content:")
-    print(repo_info.content)
+    # print("retval:", repo_info)
+    print("_" * 50)
+    print(json.dumps(repo_info.content, indent=4))
 
 
 if __name__ == "__main__":
