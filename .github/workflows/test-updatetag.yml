@@ -1,0 +1,47 @@
+# .github/workflows/bump-tag.yml
+name: Bump Tag
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  bump-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Ensure all tags are fetched
+
+      - name: Get latest tag and calculate new tag
+        id: get_tag
+        run: |
+          # Get the latest tag
+          latest=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "Latest tag: $latest"
+
+          # If no tags exist, initialize to a starting version (e.g., 0.0.1)
+          if [ -z "$latest" ]; then
+            latest="0.0.0"
+          fi
+
+          # Assuming semantic versioning: major.minor.patch
+          IFS='.' read -r major minor patch <<< "$latest"
+          # Bump the patch version (change this if you want to bump minor or major)
+          new_patch=$((patch + 1))
+          new_tag="$major.$minor.$new_patch"
+          echo "New tag: $new_tag"
+          # Set the new tag as an output for later steps
+          echo "::set-output name=new_tag::$new_tag"
+
+      - name: Create and push new tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag "${{ steps.get_tag.outputs.new_tag }}"
+          git push origin "${{ steps.get_tag.outputs.new_tag }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
