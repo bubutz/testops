@@ -8,6 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo "${{ toJson(github) }}"
+      - run: echo "${{ toJson(github) }}" | jq -r '.event.repository.default_branch'
       - name: Get repo
         env:
           TOK: ${{ secrets.ENT_TOKEN }}
