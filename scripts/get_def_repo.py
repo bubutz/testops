@@ -17,7 +17,7 @@ def main():
     print("argv 3 REPO: ", sys.argv[3])
     REPO = sys.argv[3]
     headers = {
-        "Authorization": f"breaker {TOK}",
+        "Authorization": f"Bearer {TOK}",
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28"
     }
