@@ -10,7 +10,7 @@ jobs:
       - run: echo "${{ toJson(github) }}"
       - run: |
           a="${{ toJson(github) }}"
-          jq "." << $a
+          jq "." <<< $a
       - run: echo "${{ toJson(github) }}" | jq ".event"
       - run: echo "${{ toJson(github) }}" | jq ".event.repository"
       - run: echo "${{ toJson(github) }}" | jq ".event.repository.default_branch"
