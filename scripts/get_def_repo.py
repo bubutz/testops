@@ -17,17 +17,15 @@ def branch_rules(branch_name, headers, github_url):
 
 
 def main():
-    # repo_allrules = all_repo_rules(headers, url)
-    repo_allrules = str(all_repo_rules(headers, url))
-    # repo_allrules = json.loads(repo_allrules.decode('utf-8'))
+    response = all_repo_rules(headers, url)
+    repo_allrules = response.json()
     print("_" * 50)
     print("retval:", repo_allrules)
     print(json.dumps(repo_allrules.content, indent=4))
     pprint.pprint(repo_allrules.content, compact=True, indent=4)
 
-    # branch_rule = branch_rules("main", headers, url)
-    branch_rule = str(branch_rules("main", headers, url))
-    # branch_rule = json.loads(branch_rule.decode('utf-8'))
+    response = branch_rules("main", headers, url)
+    branch_rule = response.json()
     print("_" * 50)
     print("retval:", branch_rule)
     print(json.dumps(branch_rule.content, indent=4))
