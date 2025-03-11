@@ -39,7 +39,7 @@ def validate(org_login, target_repo, new_default_branch):
 
 def update_repo_default_branch(org_login, repo_name, new_default_branch):
     url = f'https://api.github.com/repos/{org_login}/{repo_name}'
-    data = {'default_branch': f'{new_default_branch}'}
+    data = {"default_branch": f"{new_default_branch}"}
     data = json.loads(data)
     print("url:", url)
     print("data:", data)
@@ -135,6 +135,8 @@ def main():
     print("ORG:", ORG, type(ORG))
     validate(ORG, repo_name, new_default_branch)
 
+    data = {"default_branch": f"{new_default_branch}"}
+    print("data:", data, type(data))
     # update_repo_default_branch(ORG, repo_name, new_default_branch)
     update_repo_default_branch(ORG, repo_name, new_default_branch)
 
