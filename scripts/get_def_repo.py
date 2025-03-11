@@ -147,7 +147,7 @@ def main():
     }
     print("url:", url)
     print("data:", data, type(data))
-    response = requests.patch(url, headers=headers, data=json.dump(data))
+    response = requests.patch(url, data=json.dump(data), headers=headers)
     print(response.json())
 
 
