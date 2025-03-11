@@ -43,7 +43,7 @@ def update_repo_default_branch(ORG, repo_name, new_default_branch):
         "default_branch": f"{new_default_branch}"
     }
     response = requests.patch(url, headers, json=data)
-    print(response)
+    print(response.json())
 
 # def all_repo_rules(github_url):
 #     url = f'{github_url}/rulesets'
