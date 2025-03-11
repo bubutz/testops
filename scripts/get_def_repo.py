@@ -35,7 +35,7 @@ def validate(org_login, target_repo, new_default_branch):
         print('OK')
 
 
-def update_repo_default_branch(org_login, repo_name, new_default_branch):
+def update_repo_default_branch(ORG, repo_name, new_default_branch):
     url = f'https://api.github.com/repos/{ORG}/{repo_name}'
     data = {
             "default_branch": new_default_branch
@@ -125,6 +125,8 @@ def main():
     new_default_branch = update_repo_default_branch.get('new_default_branch', None)
 
     validate(ORG, repo_name, new_default_branch)
+
+    update_repo_default_branch(ORG, repo_name, new_default_branch):
 
 if __name__ == "__main__":
     TOK = sys.argv[1]
