@@ -25,8 +25,10 @@ def validate_branches(org_login, target_repo, NEW_DEFAULT_BRANCH):
                 # print("protected:", branch["protected"])
                 print("New default branch:", NEW_DEFAULT_BRANCH, "is protected.")
                 return True
-    print("New default branch:", NEW_DEFAULT_BRANCH, "doesn't exist or is not protected.")
+    print("New default branch:", NEW_DEFAULT_BRANCH,
+          "doesn't exist or is not protected.")
     return False
+
 
 def validate(org_login, target_repo, new_default_branch):
     if not validate_branches(org_login, target_repo, new_default_branch):
@@ -38,8 +40,8 @@ def validate(org_login, target_repo, new_default_branch):
 def update_repo_default_branch(ORG, repo_name, new_default_branch):
     url = f'https://api.github.com/repos/{ORG}/{repo_name}'
     data = {
-            "default_branch": new_default_branch
-            }
+        "default_branch": new_default_branch
+    }
     reponse = requests.patch(url, headers, json=data)
     print(response)
 
@@ -122,11 +124,13 @@ def main():
     target_repo = update_repo_default_branch.get('repo', None)
     prj_code = update_repo_default_branch.get('project_code', None)
     repo_name = f'{prj_code}{target_repo}'
-    new_default_branch = update_repo_default_branch.get('new_default_branch', None)
+    new_default_branch = update_repo_default_branch.get(
+        'new_default_branch', None)
 
     validate(ORG, repo_name, new_default_branch)
 
-    update_repo_default_branch(ORG, repo_name, new_default_branch):
+    update_repo_default_branch(ORG, repo_name, new_default_branch)
+
 
 if __name__ == "__main__":
     TOK = sys.argv[1]
