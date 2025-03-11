@@ -27,7 +27,7 @@ def main():
     repo_allrules = all_repo_rules(headers, url)
     # print("retval:", repo_info)
     print("_" * 50)
-    print(json.dumps(repo_info.content, indent=4))
+    print(json.dumps(repo_allrules.content, indent=4))
 
 
     branch_rule = branch_rules("main", headers, url)
