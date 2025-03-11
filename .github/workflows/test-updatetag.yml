@@ -43,5 +43,5 @@ jobs:
       #     git push origin "${{ steps.get_tag.outputs.new_tag }}"
 
       - name: Test tags
-        run:
+        run: echo hello
 
