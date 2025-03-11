@@ -3,7 +3,7 @@
 import sys
 import requests
 import json
-# import pprint
+import pprint
 
 
 def all_repo_rules(headers, github_url):
@@ -18,18 +18,18 @@ def branch_rules(branch_name, headers, github_url):
 
 def main():
     repo_allrules = all_repo_rules(headers, url)
-    repo_allrules = json.loads(repo_allrules)
+    repo_allrules = json.loads(repo_allrules.decode('utf-8'))
     print("_" * 50)
     print("retval:", repo_allrules)
     print(json.dumps(repo_allrules.content, indent=4))
-    # pprint.pprint(repo_allrules.content, compact=True, indent=4)
+    pprint.pprint(repo_allrules.content, compact=True, indent=4)
 
     branch_rule = branch_rules("main", headers, url)
-    branch_rule = json.loads(branch_rule)
+    branch_rule = json.loads(branch_rule.decode('utf-8'))
     print("_" * 50)
     print("retval:", branch_rule)
     print(json.dumps(branch_rule.content, indent=4))
-    # pprint.pprint(branch_rule.content, indent=4)
+    pprint.pprint(branch_rule.content, indent=4)
 
 
 if __name__ == "__main__":
