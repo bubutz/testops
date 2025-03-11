@@ -45,7 +45,7 @@ def update_repo_default_branch(org_login, repo_name, new_default_branch):
     data = json.dumps(data)
     print("url:", url)
     print("data:", data)
-    response = requests.patch(url, data=json.dumps(data), headers=headers)
+    response = requests.patch(url, data=data, headers=headers)
     print(response.json())
 
 # def all_repo_rules(github_url):
