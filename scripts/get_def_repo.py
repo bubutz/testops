@@ -37,8 +37,8 @@ def validate(org_login, target_repo, new_default_branch):
         print('OK')
 
 
-def update_repo_default_branch(ORG, repo_name, new_default_branch):
-    url = f'https://api.github.com/repos/{ORG}/{repo_name}'
+def update_repo_default_branch(org_login, repo_name, new_default_branch):
+    url = f'https://api.github.com/repos/{org_login}/{repo_name}'
     data = {
         "default_branch": f"{new_default_branch}"
     }
