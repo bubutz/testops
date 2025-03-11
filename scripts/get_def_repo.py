@@ -17,14 +17,14 @@ def branch_rules(branch_name, headers, github_url):
 
 def main():
     repo_allrules = all_repo_rules(headers, url)
-    # print("retval:", repo_info)
     print("_" * 50)
-    print(json.dumps(repo_allrules.content, indent=4))
+    print("retval:", repo_info)
+    # print(json.dumps(repo_allrules.content, indent=4))
 
     branch_rule = branch_rules("main", headers, url)
-    # print("retval:", branch_rule)
     print("_" * 50)
-    print(json.dumps(branch_rule.content, indent=4))
+    print("retval:", branch_rule)
+    # print(json.dumps(branch_rule.content, indent=4))
 
 
 if __name__ == "__main__":
