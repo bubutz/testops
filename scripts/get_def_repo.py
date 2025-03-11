@@ -134,16 +134,10 @@ def main():
     print("repo_name:", repo_name, type(repo_name))
     new_default_branch = update_repo_default_branch.get(
         'new_default_branch', None)
+    print("new_default_branch:", new_default_branch, type(new_default_branch))
 
     print("ORG:", ORG, type(ORG))
     validate(ORG, repo_name, new_default_branch)
-
-    data = {"default_branch": f"{new_default_branch}"}
-    print("data:", data, type(data))
-    data = json.dumps(data)
-    print("data:", data, type(data))
-    data = json.loads(data)
-    print("data:", data, type(data))
 
     # update_repo_default_branch(ORG, repo_name, new_default_branch)
     update_repo_default_branch(ORG, repo_name, new_default_branch)
