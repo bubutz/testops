@@ -7,11 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "${{ toJson(github) }}"
-      - run: echo "${{ toJson(github.event.repository.default_branch) }}"
       - name: Get repo
         env:
           TOK: ${{ secrets.ENT_TOKEN }}
-          ORG: bubutz
-          REPO: testops
-        run: python3 scripts/get_def_repo.py $TOK $ORG $REPO
+          SRC: script/get_def_repo.yml
+        run: python3 scripts/get_def_repo.py $TOK $SRC
+

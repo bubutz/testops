@@ -132,7 +132,8 @@ if __name__ == "__main__":
     # REPO = 'testops'
     # NEW_DEFAULT_BRANCH = 'release/abc/def/ghiaaa'
     # NEW_DEFAULT_BRANCH = 'main'
-    src_yml = './get_def_repo.yml'
+    # src_yml = './get_def_repo.yml'
+    src_yml = sys.argv[2]
     headers = {
         "Authorization": f"Bearer {TOK}",
         "Accept": "application/vnd.github+json",
