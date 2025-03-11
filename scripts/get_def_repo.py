@@ -40,9 +40,10 @@ def validate(org_login, target_repo, new_default_branch):
 def update_repo_default_branch(org_login, repo_name, new_default_branch):
     url = f'https://api.github.com/repos/{org_login}/{repo_name}'
     data = {"default_branch": f"{new_default_branch}"}
+    data = json.dumps(data)
     print("url:", url)
     print("data:", data)
-    response = requests.patch(url, headers=headers, data=data)
+    response = requests.patch(url, headers=headers, json=data)
     # print(response.json())
 
 # def all_repo_rules(github_url):
