@@ -7,6 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: |
+          set +e
+          ls -lA
+          ls -lA scripts
+          echo done
+
       - name: Get repo
         env:
           TOK: ${{ secrets.ENT_TOKEN }}
