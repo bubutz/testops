@@ -148,7 +148,7 @@ def main():
     print("url:", url)
     print("data:", data, type(data))
     response = requests.patch(url, data=json.dumps(data), headers=headers)
-    print(response.json())
+    print(response)
 
 
 if __name__ == "__main__":
