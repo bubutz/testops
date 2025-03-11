@@ -40,11 +40,11 @@ def validate(org_login, target_repo, new_default_branch):
 def update_repo_default_branch(org_login, repo_name, new_default_branch):
     url = f'https://api.github.com/repos/{org_login}/{repo_name}'
     data = {"default_branch": f"{new_default_branch}"}
-    data = json.loads(data)
+    data = json.dumps(data)
     print("url:", url)
     print("data:", data)
     response = requests.patch(url, headers=headers, json=data)
-    # print(response.json())
+    print(response.json())
 
 # def all_repo_rules(github_url):
 #     url = f'{github_url}/rulesets'
@@ -130,13 +130,19 @@ def main():
 
     repo_name = f'{prj_code}{target_repo}'
     print("repo_name:", repo_name, type(repo_name))
-    new_default_branch = update_repo_default_branch.get('new_default_branch', None)
+    new_default_branch = update_repo_default_branch.get(
+        'new_default_branch', None)
 
     print("ORG:", ORG, type(ORG))
     validate(ORG, repo_name, new_default_branch)
 
     data = {"default_branch": f"{new_default_branch}"}
     print("data:", data, type(data))
+    data = json.dumps(data)
+    print("data:", data, type(data))
+    data = json.loads(data)
+    print("data:", data, type(data))
+
     # update_repo_default_branch(ORG, repo_name, new_default_branch)
     update_repo_default_branch(ORG, repo_name, new_default_branch)
 
