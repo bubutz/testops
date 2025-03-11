@@ -140,7 +140,14 @@ def main():
     validate(ORG, repo_name, new_default_branch)
 
     # update_repo_default_branch(ORG, repo_name, new_default_branch)
-    update_repo_default_branch(ORG, repo_name, new_default_branch)
+    url = f'https://api.github.com/repos/{org_login}/{repo_name}'
+    data = {
+        "default_branch": f"{new_default_branch}"
+    }
+    print("url:", url)
+    print("data:", data, type(data))
+    response = requests.patch(url, data=data, headers=headers)
+    print(response.json())
 
 
 if __name__ == "__main__":
