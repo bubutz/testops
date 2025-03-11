@@ -1,4 +1,4 @@
 ---
 project_code: "test"
 repo: "ops"
-new_default_branch: "release/abc/def/ghi"
+new_default_branch: "main"
