@@ -2,7 +2,8 @@
 
 import sys
 import requests
-import json
+# import json
+import pprint
 
 
 def all_repo_rules(headers, github_url):
@@ -20,13 +21,13 @@ def main():
     print("_" * 50)
     print("retval:", repo_allrules)
     # print(json.dumps(repo_allrules.content, indent=4))
-    print(repo_allrules.content)
+    pprint.pprint(repo_allrules.content, compact=True)
 
     branch_rule = branch_rules("main", headers, url)
     print("_" * 50)
     print("retval:", branch_rule)
     # print(json.dumps(branch_rule.content, indent=4))
-    print(branch_rule.content)
+    pprint.pprint(branch_rule.content)
 
 
 if __name__ == "__main__":
