@@ -5,12 +5,12 @@ import requests
 import json
 
 
-def all_repo_rules(headers):
-    url = f'https://api.github.com/repos/{ORG}/{REPO}/rulesets'
+def all_repo_rules(headers, github_url):
+    url = f'{github_url}/rulesets'
     return requests.get(url, headers=headers)
 
-def branch_rules(branch_name, headers):
-    url = f'https://api.github.com/repos/{ORG}/{REPO}/rules/branches/{branch_name}'
+def branch_rules(branch_name, headers, github_url):
+    url = f'{github_url}/rules/branches/{branch_name}'
     return requests.get(url, headers=headers)
 
 def main():
@@ -22,14 +22,16 @@ def main():
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28"
     }
-    repo_allrules = all_repo_rules(headers)
+    url = f'https://api.github.com/repos/{ORG}/{REPO}'
 
+    repo_allrules = all_repo_rules(headers, url)
     # print("retval:", repo_info)
     print("_" * 50)
     print(json.dumps(repo_info.content, indent=4))
 
 
-    branch_rule = branch_rules("main", headers)
+    branch_rule = branch_rules("main", headers, url)
+    # print("retval:", branch_rule)
     print("_" * 50)
     print(json.dumps(branch_rule.content, indent=4))
 
