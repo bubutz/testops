@@ -142,6 +142,7 @@ def main():
     # update_repo_default_branch(ORG, repo_name, new_default_branch)
     url = f'https://api.github.com/repos/{org_login}/{repo_name}'
     data = {
+        "name": f"{repo_name}",
         "default_branch": f"{new_default_branch}"
     }
     print("url:", url)
