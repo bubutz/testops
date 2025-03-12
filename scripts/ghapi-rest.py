@@ -5,9 +5,6 @@ import requests
 
 
 def main():
-    print("TOK:", TOK)
-    print("URL:", URL)
-
     response = requests.get(URL, headers=headers).json()
     print(response)
 
