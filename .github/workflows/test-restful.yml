@@ -1,0 +1,16 @@
+name: test restful api response
+
+on: workflow_dispatch
+
+jobs:
+  showcontext:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get repo
+        shell: python3
+        env:
+          TOK: ${{ secrets.ENT_TOKEN }}
+          SRC: scripts/get_def_repo.yml
+        run: print('hello world')
+
