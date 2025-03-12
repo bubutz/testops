@@ -1,6 +1,13 @@
 name: test restful api response
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    branch_name:
+      type: choice
+      options:
+        - 'relase'
+        - 'release/prod'
+        - 'feature/prod/one'
 
 env:
   branch_url: "https://api.github.com/repos/bubutz/testops/branches"
