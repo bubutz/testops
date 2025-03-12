@@ -15,4 +15,4 @@ jobs:
           TOK: ${{ secrets.ENT_TOKEN }}
         run: |
           echo branch_url == $branch_url
-          python3 scripts/ghapi-rest.py $TOK $branch_url | jq -r
+          python3 scripts/ghapi-rest.py $TOK $branch_url
