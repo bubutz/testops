@@ -5,8 +5,13 @@ import requests
 
 
 def main():
-    response = requests.get(URL, headers=headers).json()
-    print(response)
+    response = requests.get(URL, headers=headers)
+    print("--- FULL ---------------------------------------------")
+    for line in response.json():
+        print(line)
+    # print("--- FULL ---------------------------------------------")
+    # print("--- FULL ---------------------------------------------")
+    # print("--- FULL ---------------------------------------------")
 
 
 if __name__ == '__main__':
