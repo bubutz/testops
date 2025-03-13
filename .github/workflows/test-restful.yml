@@ -9,6 +9,8 @@ on:
           - 'relase'
           - 'release/prod'
           - 'feature/prod/one'
+          - 'foo'
+          - 'aaaaa'
 
 env:
   branch_url: "https://api.github.com/repos/bubutz/testops/branches"
