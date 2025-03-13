@@ -28,7 +28,7 @@ if __name__ == '__main__':
     TOK = sys.argv[1]
     URL = sys.argv[2]
     # new_branch_name = sys.argv[3]
-    new_branch_name = ['foo', 'main', 'release']
+    new_branch_name = ['foo', 'main', 'release/prod']
 
     headers = {
         "Authorization": f"Bearer {TOK}",
