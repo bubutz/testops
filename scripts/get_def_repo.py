@@ -85,6 +85,11 @@ def is_branch_protected(NEW_DEFAULT_BRANCH, protected_branch):
 
 
 def main():
+    with open(src_yml, 'r') as file:
+        update_repo_default_branch = yaml.safe_load(file)
+    NEW_DEFAULT_BRANCH = update_repo_default_branch.get(
+        'new_default_branch', None)
+
     url = 'https://api.github.com/repos/bubutz/testops'
     repo_allrules_list = all_repo_rules(url)
     print("_" * 50)
