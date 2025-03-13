@@ -18,7 +18,7 @@ def main():
     for branch_name in new_branch_name:
         print(branch_name)
         url = f'https://api.github.com/repos/bubutz/testops/branches/{branch_name}/protection'
-        print(url)
+        print(url, headers)
         response = requests.get(url, headers=headers)
         print(response.json())
         print()
