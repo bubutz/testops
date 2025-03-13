@@ -7,8 +7,8 @@ import requests
 def main():
     response = requests.get(URL, headers=headers)
     print("--- FULL ---------------------------------------------")
+    print(response.json())
     for branch in response.json():
-        print(branch)
         print("    --- BRANCHNAME -----------------------------------")
         if branch["name"] == new_branch_name:
             print("Hit ", branch["name"])
