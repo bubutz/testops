@@ -105,6 +105,7 @@ def main():
     # OLD
     for ruleset in active_rulesets:
         # print(x["rules"][0]["type"]) # return rule type is deletion
+        print(ruleset)
         for rule in ruleset:
             # if ruleset["rules"][0]["type"] == "deletion":
             # print(rule)
