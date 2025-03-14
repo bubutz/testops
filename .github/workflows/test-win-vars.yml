@@ -41,11 +41,11 @@ jobs:
           else
               echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $GITHUB_OUTPUT
           fi
-          if [ "${{ input.BRANCH }}" = "UAT" ]; then
+          if [ "${{ inputs.BRANCH }}" = "UAT" ]; then
               echo "RUNNER=nprd_runner" >> $GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serveruat" >> $GITHUB_OUTPUT
               echo "ENVIRONMENT=uat" >> $GITHUB_OUTPUT
-          elif [ "${{ input.BRANCH }}" = "master" ]; then
+          elif [ "${{ inputs.BRANCH }}" = "master" ]; then
               echo "RUNNER=prod_runner" >> $GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serverprod" >> $GITHUB_OUTPUT
               echo "ENVIRONMENT=prod" >> $GITHUB_OUTPUT
@@ -75,11 +75,11 @@ jobs:
           else
               echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
           fi
-          if [ "${{ input.BRANCH }}" = "UAT" ]; then
+          if [ "${{ inputs.BRANCH }}" = "UAT" ]; then
               echo "RUNNER=nprd_runner" >> $env:GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serveruat" >> $env:GITHUB_OUTPUT
               echo "ENVIRONMENT=uat" >> $env:GITHUB_OUTPUT
-          elif [ "${{ input.BRANCH }}" = "master" ]; then
+          elif [ "${{ inputs.BRANCH }}" = "master" ]; then
               echo "RUNNER=prod_runner" >> $env:GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serverprod" >> $env:GITHUB_OUTPUT
               echo "ENVIRONMENT=prod" >> $env:GITHUB_OUTPUT
