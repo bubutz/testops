@@ -76,11 +76,11 @@ jobs:
           } else {
               echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
           }
-          if ( "${{ inputs.BRANCH }}" = "UAT" ) {
+          if ( "${{ inputs.BRANCH }}" == "UAT" ) {
               echo "RUNNER=nprd_runner" >> $env:GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serveruat" >> $env:GITHUB_OUTPUT
               echo "ENVIRONMENT=uat" >> $env:GITHUB_OUTPUT
-          } elseif ( "${{ inputs.BRANCH }}" = "master" ) {
+          } elseif ( "${{ inputs.BRANCH }}" == "master" ) {
               echo "RUNNER=prod_runner" >> $env:GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serverprod" >> $env:GITHUB_OUTPUT
               echo "ENVIRONMENT=prod" >> $env:GITHUB_OUTPUT
