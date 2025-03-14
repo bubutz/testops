@@ -74,7 +74,7 @@ jobs:
           if (-Not ([string]::IsNullOrWhiteSpace("${{ inputs.BUILD_NUMBER_ARTIFACT }}))) {
               $BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT.Trim()
           }
-          if ( ${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }} -like "true" ) {
+          if ( "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" ) {
               echo "BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
           } else {
               echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
