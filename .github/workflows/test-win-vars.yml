@@ -143,16 +143,22 @@ jobs:
       - name: Powershell show vars
         shell: pwsh
         run: |
-          echo "DEPLOY   ===   $DEPLOY"
-          echo "BUILD_NUMBER   ===   $BUILD_NUMBER"
-          echo "BUILD_NUMBER_ARTIFACT   ===   $BUILD_NUMBER_ARTIFACT"
-          echo "RUNNER   ===   $RUNNER"
-          echo "DEPLOYMENT_SERVER   ===   $DEPLOYMENT_SERVER"
-          echo "ENVIRONMENT   ===   $ENVIRONMENT"
+          echo "DEPLOY   ===   ${{ env.DEPLOY }}"
+          echo "BUILD_NUMBER   ===   ${{ env.BUILD_NUMBER }}"
+          echo "BUILD_NUMBER_ARTIFACT   ===   ${{ env.BUILD_NUMBER_ARTIFACT }}"
+          echo "RUNNER   ===   ${{ env.RUNNER }}"
+          echo "DEPLOYMENT_SERVER   ===   ${{ env.DEPLOYMENT_SERVER }}"
+          echo "ENVIRONMENT   ===   ${{ env.ENVIRONMENT }}"
 
       - name: CMD show vars
         shell: cmd
         run: |
+          echo "DEPLOY   ===   ${{ env.DEPLOY }}"
+          echo "BUILD_NUMBER   ===   ${{ env.BUILD_NUMBER }}"
+          echo "BUILD_NUMBER_ARTIFACT   ===   ${{ env.BUILD_NUMBER_ARTIFACT }}"
+          echo "RUNNER   ===   ${{ env.RUNNER }}"
+          echo "DEPLOYMENT_SERVER   ===   ${{ env.DEPLOYMENT_SERVER }}"
+          echo "ENVIRONMENT   ===   ${{ env.ENVIRONMENT }}"
 
 
   var-win-show:
@@ -182,9 +188,9 @@ jobs:
       - name: CMD show vars
         shell: cmd
         run: |
-          echo "DEPLOY   ===   %DEPLOY%"
-          echo "BUILD_NUMBER   ===   %BUILD_NUMBER%"
-          echo "BUILD_NUMBER_ARTIFACT   ===   %BUILD_NUMBER_ARTIFACT%"
-          echo "RUNNER   ===   %RUNNER%"
-          echo "DEPLOYMENT_SERVER   ===   %DEPLOYMENT_SERVER%"
-          echo "ENVIRONMENT   ===   %ENVIRONMENT%"
+          echo "DEPLOY   ===   ${{ env.DEPLOY }}"
+          echo "BUILD_NUMBER   ===   ${{ env.BUILD_NUMBER }}"
+          echo "BUILD_NUMBER_ARTIFACT   ===   ${{ env.BUILD_NUMBER_ARTIFACT }}"
+          echo "RUNNER   ===   ${{ env.RUNNER }}"
+          echo "DEPLOYMENT_SERVER   ===   ${{ env.DEPLOYMENT_SERVER }}"
+          echo "ENVIRONMENT   ===   ${{ env.ENVIRONMENT }}"
