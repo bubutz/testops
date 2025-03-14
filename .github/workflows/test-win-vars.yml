@@ -64,8 +64,8 @@ jobs:
       ENVIRONMENT: ${{ steps.lin-envs.outputs.ENVIRONMENT }}
 
     steps:
-      # - name: Setup vars
-      #   id: win-envs
+      - name: Setup vars
+        id: win-envs
       #   shell: pwsh
       #   run: |
       #     echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $env:GITHUB_OUTPUT
@@ -88,23 +88,25 @@ jobs:
       #         echo "DEPLOYMENT_SERVER=serverprod" >> $env:GITHUB_OUTPUT
       #         echo "ENVIRONMENT=prod" >> $env:GITHUB_OUTPUT
       #     }
-
-      - name: Setup vars
-        id: win-envs
-        shell: pwsh
+        shell: bash
         run: |
-          echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $env:GITHUB_OUTPUT
-          echo "BUILD_NUMBER=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
+          echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $GITHUB_OUTPUT
+          echo "BUILD_NUMBER=${{ github.run_number }}" >> $GITHUB_OUTPUT
+          if [ "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" == "true" ]; then
+              echo "BUILD_NUMBER_ARTIFACT=$(tr -d ' ' <<< "${{ inputs.BUILD_NUMBER_ARTIFACT }}")" >> $GITHUB_OUTPUT
+          else
+              echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $GITHUB_OUTPUT
+          fi
+          if [ "${{ inputs.BRANCH }}" = "UAT" ]; then
+              echo "RUNNER=nprd_runner" >> $GITHUB_OUTPUT
+              echo "DEPLOYMENT_SERVER=serveruat" >> $GITHUB_OUTPUT
+              echo "ENVIRONMENT=uat" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.BRANCH }}" = "master" ]; then
+              echo "RUNNER=prod_runner" >> $GITHUB_OUTPUT
+              echo "DEPLOYMENT_SERVER=serverprod" >> $GITHUB_OUTPUT
+              echo "ENVIRONMENT=prod" >> $GITHUB_OUTPUT
+          fi
 
-          if ( "${{ inputs.BRANCH }}" -like "UAT" ) {
-              echo "RUNNER=nprd_runner" >> $env:GITHUB_OUTPUT
-              echo "DEPLOYMENT_SERVER=serveruat" >> $env:GITHUB_OUTPUT
-              echo "ENVIRONMENT=uat" >> $env:GITHUB_OUTPUT
-          } elseif ( "${{ inputs.BRANCH }}" -like "master" ) {
-              echo "RUNNER=prod_runner" >> $env:GITHUB_OUTPUT
-              echo "DEPLOYMENT_SERVER=serverprod" >> $env:GITHUB_OUTPUT
-              echo "ENVIRONMENT=prod" >> $env:GITHUB_OUTPUT
-          }
 
 
   # var-mac:
