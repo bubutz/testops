@@ -70,20 +70,20 @@ jobs:
         run: |
           echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $env:GITHUB_OUTPUT
           echo "BUILD_NUMBER=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
-          if [ "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" == "true" ]; then
+          if ( "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" -like "true" ) {
               echo "BUILD_NUMBER_ARTIFACT=$(tr -d ' ' <<< "${{ inputs.BUILD_NUMBER_ARTIFACT }}")" >> $env:GITHUB_OUTPUT
-          else
+          } else {
               echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
-          fi
-          if [ "${{ inputs.BRANCH }}" = "UAT" ]; then
+          }
+          if ( "${{ inputs.BRANCH }}" = "UAT" ) {
               echo "RUNNER=nprd_runner" >> $env:GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serveruat" >> $env:GITHUB_OUTPUT
               echo "ENVIRONMENT=uat" >> $env:GITHUB_OUTPUT
-          elif [ "${{ inputs.BRANCH }}" = "master" ]; then
+          } elseif ( "${{ inputs.BRANCH }}" = "master" ) {
               echo "RUNNER=prod_runner" >> $env:GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serverprod" >> $env:GITHUB_OUTPUT
               echo "ENVIRONMENT=prod" >> $env:GITHUB_OUTPUT
-          fi
+          }
 
 
   # var-mac:
