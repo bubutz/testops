@@ -66,46 +66,28 @@ jobs:
     steps:
       - name: Setup vars
         id: win-envs
-      #   shell: pwsh
-      #   run: |
-      #     echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $env:GITHUB_OUTPUT
-      #     echo "BUILD_NUMBER=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
-      #
-      #     if (-Not ([string]::IsNullOrWhiteSpace("${{ inputs.BUILD_NUMBER_ARTIFACT }}))) {
-      #         $BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT.Trim()
-      #     }
-      #     if ( "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" -like "true" ) {
-      #         echo "BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT" >> $env:GITHUB_OUTPUT
-      #     } else {
-      #         echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
-      #     }
-      #     if ( "${{ inputs.BRANCH }}" -like "UAT" ) {
-      #         echo "RUNNER=nprd_runner" >> $env:GITHUB_OUTPUT
-      #         echo "DEPLOYMENT_SERVER=serveruat" >> $env:GITHUB_OUTPUT
-      #         echo "ENVIRONMENT=uat" >> $env:GITHUB_OUTPUT
-      #     } elseif ( "${{ inputs.BRANCH }}" -like "master" ) {
-      #         echo "RUNNER=prod_runner" >> $env:GITHUB_OUTPUT
-      #         echo "DEPLOYMENT_SERVER=serverprod" >> $env:GITHUB_OUTPUT
-      #         echo "ENVIRONMENT=prod" >> $env:GITHUB_OUTPUT
-      #     }
-        shell: bash
+        shell: pwsh
         run: |
-          echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $GITHUB_OUTPUT
-          echo "BUILD_NUMBER=${{ github.run_number }}" >> $GITHUB_OUTPUT
-          if [ "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" == "true" ]; then
-              echo "BUILD_NUMBER_ARTIFACT=$(tr -d ' ' <<< "${{ inputs.BUILD_NUMBER_ARTIFACT }}")" >> $GITHUB_OUTPUT
-          else
-              echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $GITHUB_OUTPUT
-          fi
-          if [ "${{ inputs.BRANCH }}" = "UAT" ]; then
-              echo "RUNNER=nprd_runner" >> $GITHUB_OUTPUT
-              echo "DEPLOYMENT_SERVER=serveruat" >> $GITHUB_OUTPUT
-              echo "ENVIRONMENT=uat" >> $GITHUB_OUTPUT
-          elif [ "${{ inputs.BRANCH }}" = "master" ]; then
-              echo "RUNNER=prod_runner" >> $GITHUB_OUTPUT
-              echo "DEPLOYMENT_SERVER=serverprod" >> $GITHUB_OUTPUT
-              echo "ENVIRONMENT=prod" >> $GITHUB_OUTPUT
-          fi
+          echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          echo "BUILD_NUMBER=${{ github.run_number }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+
+          if (-Not ([string]::IsNullOrWhiteSpace("${{ inputs.BUILD_NUMBER_ARTIFACT }}))) {
+              $BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT.Trim()
+          }
+          if ( "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" -like "true" ) {
+              echo "BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          } else {
+              echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          }
+          if ( "${{ inputs.BRANCH }}" -like "UAT" ) {
+              echo "RUNNER=nprd_runner" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+              echo "DEPLOYMENT_SERVER=serveruat" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+              echo "ENVIRONMENT=uat" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          } elseif ( "${{ inputs.BRANCH }}" -like "master" ) {
+              echo "RUNNER=prod_runner" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+              echo "DEPLOYMENT_SERVER=serverprod" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+              echo "ENVIRONMENT=prod" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          }
 
 
 
@@ -149,13 +131,6 @@ jobs:
           echo "RUNNER   ===   ${{ env.RUNNER }}"
           echo "DEPLOYMENT_SERVER   ===   ${{ env.DEPLOYMENT_SERVER }}"
           echo "ENVIRONMENT   ===   ${{ env.ENVIRONMENT }}"
-          echo -------------------------------------
-          echo "DEPLOY   ===   ${{ DEPLOY }}"
-          echo "BUILD_NUMBER   ===   ${{ BUILD_NUMBER }}"
-          echo "BUILD_NUMBER_ARTIFACT   ===   ${{ BUILD_NUMBER_ARTIFACT }}"
-          echo "RUNNER   ===   ${{ RUNNER }}"
-          echo "DEPLOYMENT_SERVER   ===   ${{ DEPLOYMENT_SERVER }}"
-          echo "RONMENT   ===   ${{ env.ENVIRONMENT }}"
 
       - name: CMD show vars
         shell: cmd
@@ -166,13 +141,6 @@ jobs:
           echo "RUNNER   ===   ${{ env.RUNNER }}"
           echo "DEPLOYMENT_SERVER   ===   ${{ env.DEPLOYMENT_SERVER }}"
           echo "ENVIRONMENT   ===   ${{ env.ENVIRONMENT }}"
-          echo -------------------------------------
-          echo "DEPLOY   ===   ${{ DEPLOY }}"
-          echo "BUILD_NUMBER   ===   ${{ BUILD_NUMBER }}"
-          echo "BUILD_NUMBER_ARTIFACT   ===   ${{ BUILD_NUMBER_ARTIFACT }}"
-          echo "RUNNER   ===   ${{ RUNNER }}"
-          echo "DEPLOYMENT_SERVER   ===   ${{ DEPLOYMENT_SERVER }}"
-          echo "RONMENT   ===   ${{ env.ENVIRONMENT }}"
 
 
   var-win-show:
