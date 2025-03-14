@@ -64,6 +64,31 @@ jobs:
       ENVIRONMENT: ${{ steps.lin-envs.outputs.ENVIRONMENT }}
 
     steps:
+      # - name: Setup vars
+      #   id: win-envs
+      #   shell: pwsh
+      #   run: |
+      #     echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $env:GITHUB_OUTPUT
+      #     echo "BUILD_NUMBER=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
+      #
+      #     if (-Not ([string]::IsNullOrWhiteSpace("${{ inputs.BUILD_NUMBER_ARTIFACT }}))) {
+      #         $BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT.Trim()
+      #     }
+      #     if ( "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" -like "true" ) {
+      #         echo "BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT" >> $env:GITHUB_OUTPUT
+      #     } else {
+      #         echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
+      #     }
+      #     if ( "${{ inputs.BRANCH }}" -like "UAT" ) {
+      #         echo "RUNNER=nprd_runner" >> $env:GITHUB_OUTPUT
+      #         echo "DEPLOYMENT_SERVER=serveruat" >> $env:GITHUB_OUTPUT
+      #         echo "ENVIRONMENT=uat" >> $env:GITHUB_OUTPUT
+      #     } elseif ( "${{ inputs.BRANCH }}" -like "master" ) {
+      #         echo "RUNNER=prod_runner" >> $env:GITHUB_OUTPUT
+      #         echo "DEPLOYMENT_SERVER=serverprod" >> $env:GITHUB_OUTPUT
+      #         echo "ENVIRONMENT=prod" >> $env:GITHUB_OUTPUT
+      #     }
+
       - name: Setup vars
         id: win-envs
         shell: pwsh
@@ -71,14 +96,6 @@ jobs:
           echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $env:GITHUB_OUTPUT
           echo "BUILD_NUMBER=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
 
-          if (-Not ([string]::IsNullOrWhiteSpace("${{ inputs.BUILD_NUMBER_ARTIFACT }}))) {
-              $BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT.Trim()
-          }
-          if ( "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" -like "true" ) {
-              echo "BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT" >> $env:GITHUB_OUTPUT
-          } else {
-              echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
-          }
           if ( "${{ inputs.BRANCH }}" -like "UAT" ) {
               echo "RUNNER=nprd_runner" >> $env:GITHUB_OUTPUT
               echo "DEPLOYMENT_SERVER=serveruat" >> $env:GITHUB_OUTPUT
