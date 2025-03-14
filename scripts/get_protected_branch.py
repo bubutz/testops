@@ -59,7 +59,7 @@ def is_branch_protected(NEW_DEFAULT_BRANCH, protected_branch):
 
 
 def main():
-
+    url = 'https://api.github.com/bubutz/testops/'
     # Get all active rules
     repo_allrules_list = all_repo_rules(url)
     print("_" * 50)
