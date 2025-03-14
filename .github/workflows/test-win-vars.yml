@@ -13,6 +13,8 @@ on:
         options:
           - yes
           - no
+      BUILD_NUMBER_ARTIFACT:
+        type: string
 
 jobs:
   var-lin:
