@@ -11,8 +11,8 @@ on:
       DEPLOY_WITH_SPECIFIC_BUILD_NUMBER:
         type: choice
         options:
-          - yes
           - no
+          - yes
       BUILD_NUMBER_ARTIFACT:
         type: string
 
@@ -70,8 +70,9 @@ jobs:
         run: |
           echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $env:GITHUB_OUTPUT
           echo "BUILD_NUMBER=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
+          $BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT.Trim()
           if ( "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" -like "true" ) {
-              echo "BUILD_NUMBER_ARTIFACT=$(tr -d ' ' <<< "${{ inputs.BUILD_NUMBER_ARTIFACT }}")" >> $env:GITHUB_OUTPUT
+              echo "BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT" >> $env:GITHUB_OUTPUT
           } else {
               echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $env:GITHUB_OUTPUT
           }
