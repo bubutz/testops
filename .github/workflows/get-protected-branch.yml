@@ -1,0 +1,14 @@
+name: 01.Get protected branch
+
+on: workflow_dispatch
+
+jobs:
+  showcontext:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get protected branch
+        env:
+          TOK: ${{ secrets.ENT_TOKEN }}
+          SRC: scripts/get_def_repo.yml
+        run: python3 scripts/get_protected_branch.py $TOK $SRC
