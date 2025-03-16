@@ -59,16 +59,21 @@ def is_branch_protected(NEW_DEFAULT_BRANCH, protected_branch):
 
 
 def main():
-    url = 'https://api.github.com/bubutz/testops/'
+    print(headers)
+    url: str = 'https://api.github.com/bubutz/testops/'
+
     # Get all active rules
-    repo_allrules_list = all_repo_rules(url)
-    print("_" * 50)
+    url: str = 'https://api.github.com/bubutz/testops/rulesets'
+    repo_allrules_list: list = requests.get(url, headers=headers)
     print(repo_allrules_list)
-    active_rulesets = []
+
+    # Get all active ruleset
+    active_rulesets: list = list()
     for rule in repo_allrules_list:
         if rule["enforcement"] == "active":
-            print(rule["_links"]["self"]["href"]) # return ACTIVE rulesets url
-            active_rulesets.append(branch_rules(rule["_links"]["self"]["href"], headers))
+            # print(rule["_links"]["self"]["href"]) # return ACTIVE ruleset url
+            active_rulesets.append(branch_rules(
+                rule["_links"]["self"]["href"], headers))
     print(active_rulesets)
 
     # Get all protected branch macroglob
@@ -92,10 +97,10 @@ def main():
                     protected_branch.append(branch.replace('refs/heads/', ''))
 
     # Check if glob match
-    if is_branch_protected(NEW_DEFAULT_BRANCH, protected_branch):
-        print('lets go')
-    else:
-        print('gtfo')
+    # if is_branch_protected(NEW_DEFAULT_BRANCH, protected_branch):
+    #     print('lets go')
+    # else:
+    #     print('gtfo')
 
 
 if __name__ == "__main__":

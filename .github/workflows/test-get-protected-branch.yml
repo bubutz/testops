@@ -1,4 +1,4 @@
-name: 01.Get protected branch
+name: test api get repo
 
 on: workflow_dispatch
 
@@ -7,8 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Get protected branch
+      - run: |
+          set +e
+          ls -lA
+          ls -lA scripts
+          echo done
+
+      - name: Get repo
         env:
           TOK: ${{ secrets.ENT_TOKEN }}
           SRC: scripts/get_def_repo.yml
-        run: python3 scripts/get_protected_branch.py $TOK
+        run: python3 scripts/get_def_repo.py $TOK $SRC
+
