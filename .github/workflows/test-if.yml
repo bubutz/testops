@@ -37,7 +37,7 @@ jobs:
 
   post:
     name: Post
-    needs: [pre, post]
+    needs: [pre, chk]
     runs-on: ubuntu-latest
     if: needs.pre.outputs.DEP == 'ok'
     steps:
