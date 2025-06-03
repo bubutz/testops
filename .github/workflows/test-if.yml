@@ -22,10 +22,12 @@ jobs:
     name: Pre
     runs-on: ubuntu-latest
     steps:
-      - id: set-env
+      - name: set env
+        id: set-env
         run: echo "DEP=${{ inputs.DEP }}" >> $GITHUB_OUTPUT
     outputs:
       DEP: ${{ steps.set-env.outputs.DEP }}
+
   chk:
     name: Check
     needs: [pre]
@@ -33,6 +35,7 @@ jobs:
     if: github.event.inputs.ENV == 'ok'
     steps:
       - run: echo Hello
+
   post:
     name: Post
     needs: [pre, post]
