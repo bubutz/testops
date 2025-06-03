@@ -40,7 +40,7 @@ jobs:
     needs: [pre, chk]
     runs-on: ubuntu-latest
     if: |
-      # needs.pre.outputs.DEP == 'ok' &&
       '!cancelled() && !failure()'
+    #   needs.pre.outputs.DEP == 'ok'
     steps:
       - run: echo Hello
