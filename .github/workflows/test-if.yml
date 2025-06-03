@@ -12,7 +12,6 @@ on:
       DEP:
         description: DEP
         type: choice
-        options: choice
         options:
           - 'ok'
           - 'ng'
