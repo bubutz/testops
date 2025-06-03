@@ -39,9 +39,6 @@ jobs:
     name: Post
     needs: [pre, chk]
     runs-on: ubuntu-latest
-    if: |
-      '!cancelled()' &&
-      '!failure()' &&
-      needs.pre.outputs.DEP == 'ok'
+    if: ${{ !failure() && !cancelled() && needs.pre.outputs.DEP == 'ok' }}
     steps:
       - run: echo Hello
