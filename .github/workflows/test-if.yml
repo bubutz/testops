@@ -41,7 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       needs.pre.outputs.DEP == 'ok' &&
-      '!cancelled()' &&
-      '!failure()'
+      '!cancelled() && !failure()'
     steps:
       - run: echo Hello
