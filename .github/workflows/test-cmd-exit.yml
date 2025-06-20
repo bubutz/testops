@@ -1,6 +1,7 @@
 name: Test cmd exit
 
-on: workflow_dispatch
+on:
+  workflow_dispatch: {}
 
 jobs:
   test-cmd-exit:
