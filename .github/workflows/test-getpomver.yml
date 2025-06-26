@@ -9,12 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: Get pom.xml version
         shell: python
         run: |
           #/usr/bin/env python3
-          import csv
-          import requests
-          import xml.etree.ElementTree as ET
+          import xml.etree.ElementTree as xml
 
-          print("hello world")
+          tree = xml.parse('pom.xml')
+          root = tree.getroot()
+          namespace = root.tag.replace("project", "")
+          version = root.find(namspace+"version")
+
+          print(version.text)
