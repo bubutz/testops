@@ -11,7 +11,7 @@ jobs:
         with:
           pom-xml-path: ./pom.xml
         id: pom
-      - run: echo "dummy=123" >> $GITHUB_OUTPUTS
+      - run: echo "dummy=123" >> $GITHUB_OUTPUT
 
   show-pom-ver:
     name: Show pom.xml version
