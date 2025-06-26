@@ -20,6 +20,6 @@ jobs:
           tree = xml.parse('pom.xml')
           root = tree.getroot()
           namespace = root.tag.replace("project", "")
-          version = root.find(namspace+"version")
+          version = root.find(namespace+"version")
 
           print(version.text)
