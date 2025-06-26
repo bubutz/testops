@@ -11,6 +11,7 @@ jobs:
         with:
           pom-xml-path: ./pom.xml
         id: pom
+      - run: echo "dummy=123" >> $GITHUB_OUTPUTS
 
   show-pom-ver:
     name: Show pom.xml version
@@ -18,3 +19,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo version is ${{ needs.get-pom-ver.outputs.version }}
+      - run: echo version is ${{ needs.get-pom-ver.outputs.dummy }}
