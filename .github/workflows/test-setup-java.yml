@@ -1,0 +1,13 @@
+name: test setup java
+
+on: workflow_dispatch
+
+jobs:
+  onwindows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - run: java -version
