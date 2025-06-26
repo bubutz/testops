@@ -20,6 +20,7 @@ runs:
       shell: python
       run: |
         #/usr/bin/env python3
+        import os
         import xml.etree.ElementTree as xml
 
         tree = xml.parse('pom.xml')
