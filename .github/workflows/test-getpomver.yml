@@ -1,0 +1,20 @@
+name: Test get pom.xml version
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  get-pom-version:
+    name: Get pom.xml version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get pom.xml version
+        shell: python
+        run: |
+          #/usr/bin/env python3
+          import csv
+          import requests
+          import xml.etree.ElementTree as ET
+
+          print("hello world")
