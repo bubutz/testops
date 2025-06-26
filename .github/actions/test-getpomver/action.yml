@@ -28,4 +28,6 @@ runs:
         version = root.find(namespace+"version").text
 
         print(version)
-        print(f'::set-output name=version::{version}')
+
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+          print(f'version={version}', file=fh)
