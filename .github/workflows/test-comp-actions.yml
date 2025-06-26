@@ -17,4 +17,4 @@ jobs:
     needs: [get-pom-ver]
     runs-on: ubuntu-latest
     steps:
-      - run: echo version is ${{ needs.get-pom-ver.output.version }}
+      - run: echo version is ${{ needs.get-pom-ver.outputs.version }}
