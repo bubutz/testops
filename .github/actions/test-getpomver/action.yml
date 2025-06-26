@@ -1,0 +1,30 @@
+name: Test get pom.xml version
+description: Get the version of pom.xml file
+
+inputs:
+  pom-xml-path:
+    desription: Location of pom.xml in repository
+    required: true
+
+outputs:
+  version:
+    description: pom.xml version number
+    value: ${{ steps.pom.outputs.version }}
+run:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+
+    - id: pom
+      shell: python
+      run: |
+        #/usr/bin/env python3
+        import xml.etree.ElementTree as xml
+
+        tree = xml.parse('pom.xml')
+        root = tree.getroot()
+        namespace = root.tag.replace("project", "")
+        version = root.find(namespace+"version").text
+
+        print(version)
+        print(f'::set-output name=version::{version}')
