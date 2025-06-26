@@ -10,7 +10,8 @@ outputs:
   version:
     description: pom.xml version number
     value: ${{ steps.pom.outputs.version }}
-run:
+
+runs:
   using: composite
   steps:
     - uses: actions/checkout@v4
