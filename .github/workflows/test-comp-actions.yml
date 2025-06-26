@@ -1,0 +1,20 @@
+name: Test composite actions
+
+on: workflow_dispatch
+
+jobs:
+  get-pom-ver:
+    name: Get pom.xml version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: .github/actions/test-getpomver@main
+        with:
+          pom-xml-path: ./pom.xml
+        id: pom
+
+  show-pom-ver:
+    name: Show pom.xml version
+    needs: [get-pom-ver]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo version is ${{ needs.get-pom-ver.output.version }}
