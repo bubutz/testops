@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          func getAAA() {
+          function getAAA() {
             if [ -z "${{ inputs.AAA }}" ]; then
               echo "AAA is empty"
             else
               echo "AAA is ${{ inputs.AAA }}"
             fi
           }
-          func chkAAA() {
+          function chkAAA() {
             if [ -z "${{ inputs.AAA }}" ]; then
               return false
             else
