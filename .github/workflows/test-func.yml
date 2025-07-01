@@ -28,7 +28,7 @@ jobs:
           #     return 0
           #   fi
           # }
-          function chkAAA() { [ -z "${{ inputs.AAA }}" ] && return 1 || return 0 }
+          function chkAAA() { [ -z "${{ inputs.AAA }}" ] && return 1 || return 0; }
 
           getAAA
           if chkAAA; then
