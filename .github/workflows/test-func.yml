@@ -1,0 +1,37 @@
+name: Test bash func
+
+on:
+  workflow_dispatch:
+    inputs:
+      AAA:
+        description: AAA
+        type: string
+        required: false
+
+jobs:
+  test-func:
+    name: Test bash func
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          func getAAA() {
+            if [ -z "${{ inputs.AAA }}" ]; then
+              echo "AAA is empty"
+            else
+              echo "AAA is ${{ inputs.AAA }}"
+            fi
+          }
+          func chkAAA() {
+            if [ -z "${{ inputs.AAA }}" ]; then
+              return false
+            else
+              return true
+            fi
+          }
+
+          getAAA
+          if chkAAA; then
+            echo "AAA is ${{ inputs.AAA }}"
+          else
+            echo "AAA is empty"
+          fi
