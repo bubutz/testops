@@ -23,9 +23,9 @@ jobs:
           }
           function chkAAA() {
             if [ -z "${{ inputs.AAA }}" ]; then
-              return false
+              return 1
             else
-              return true
+              return 0
             fi
           }
 
