@@ -21,13 +21,14 @@ jobs:
               echo "AAA is ${{ inputs.AAA }}"
             fi
           }
-          function chkAAA() {
-            if [ -z "${{ inputs.AAA }}" ]; then
-              return 1
-            else
-              return 0
-            fi
-          }
+          # function chkAAA() {
+          #   if [ -z "${{ inputs.AAA }}" ]; then
+          #     return 1
+          #   else
+          #     return 0
+          #   fi
+          # }
+          function chkAAA() { [ -z "${{ inputs.AAA }}" ] && return 1 || return 0 }
 
           getAAA
           if chkAAA; then
