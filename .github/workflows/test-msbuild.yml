@@ -1,0 +1,36 @@
+name: Test msbuild
+
+on: workflow_dispatch
+
+jobs:
+  ps:
+    runs-on: windows-latest
+    steps:
+      - shell: powershell
+        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser
+      - shell: powershell
+        run: Get-STDotNetVersion
+
+  ps-sep:
+    runs-on: windows-latest
+    steps:
+      - shell: powershell
+        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser
+      - shell: powershell
+        run: Get-STDotNetVersion
+
+  cmd:
+    runs-on: windows-latest
+    steps:
+      - shell: powershell
+        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser
+      - shell: powershell
+        run: Get-STDotNetVersion
+
+  cmd-cep:
+    runs-on: windows-latest
+    steps:
+      - shell: powershell
+        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser
+      - shell: powershell
+        run: Get-STDotNetVersion
