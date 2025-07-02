@@ -32,6 +32,7 @@ jobs:
       # - shell: powershell
       #   run: Get-STDotNetVersion
       # - run: ls "C:\Windows\Microsoft.NET\Framework\"
+      - uses: microsoft/setup-msbuild@v2
       - run: dotnet add package Microsoft.NETFramework.ReferenceAssemblies.net45 --version 1.0.3
 
   # cmd:
