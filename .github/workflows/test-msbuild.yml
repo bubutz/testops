@@ -6,32 +6,33 @@ jobs:
   ps:
     runs-on: windows-latest
     steps:
-      - shell: powershell
-        run: |
-          Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
-          Get-ItemProperty -name Version,Release -EA 0 |
-          Where { $_.PSChildName -match '^(?!S)\p{L}'} |
-          Select PSChildName, Version, Release
-      - shell: powershell
-        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
-      - shell: powershell
-        run: Get-STDotNetVersion
-      - shell: powershell
-        run: Invoke-WebRequest -Uri "https://download.microsoft.com/download/B/A/4/BA4A7E71-2906-4B2D-A0E1-80CF16844F5F/dotNetFx45_Full_setup.exe" -Outfile "${{ runner.temp }}\DNF45.exe"
-      - shell: powershell
-        run: |
-          Start-Process -FilePath "${{ runner.temp }}\DNF45.exe" -ArgumentList "/q /norestart" -Wait -PassThru -RedirectStandardOutput "${{ runner.temp }}\install.log" -RedirectStandardError "${{ runner.temp }}\error.log"
-          Get-Content "${{ runner.temp }}\install.log"
-          Get-Content "${{ runner.temp }}\error.log"
-      - shell: powershell
-        run: |
-          Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
-          Get-ItemProperty -name Version,Release -EA 0 |
-          Where { $_.PSChildName -match '^(?!S)\p{L}'} |
-          Select PSChildName, Version, Release
-      - shell: powershell
-        run: Get-STDotNetVersion
-      - run: ls "C:\Windows\Microsoft.NET\Framework\"
+      # - shell: powershell
+      #   run: |
+      #     Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
+      #     Get-ItemProperty -name Version,Release -EA 0 |
+      #     Where { $_.PSChildName -match '^(?!S)\p{L}'} |
+      #     Select PSChildName, Version, Release
+      # - shell: powershell
+      #   run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
+      # - shell: powershell
+      #   run: Get-STDotNetVersion
+      # - shell: powershell
+      #   run: Invoke-WebRequest -Uri "https://download.microsoft.com/download/B/A/4/BA4A7E71-2906-4B2D-A0E1-80CF16844F5F/dotNetFx45_Full_setup.exe" -Outfile "${{ runner.temp }}\DNF45.exe"
+      # - shell: powershell
+      #   run: |
+      #     Start-Process -FilePath "${{ runner.temp }}\DNF45.exe" -ArgumentList "/q /norestart" -Wait -PassThru -RedirectStandardOutput "${{ runner.temp }}\install.log" -RedirectStandardError "${{ runner.temp }}\error.log"
+      #     Get-Content "${{ runner.temp }}\install.log"
+      #     Get-Content "${{ runner.temp }}\error.log"
+      # - shell: powershell
+      #   run: |
+      #     Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
+      #     Get-ItemProperty -name Version,Release -EA 0 |
+      #     Where { $_.PSChildName -match '^(?!S)\p{L}'} |
+      #     Select PSChildName, Version, Release
+      # - shell: powershell
+      #   run: Get-STDotNetVersion
+      # - run: ls "C:\Windows\Microsoft.NET\Framework\"
+      - run: dotnet add package Microsoft.NETFramework.ReferenceAssemblies.net45 --version 1.0.3
 
   # cmd:
   #   runs-on: windows-latest
