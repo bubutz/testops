@@ -35,7 +35,6 @@ jobs:
       - run: |
           Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Microsoft.NETFramework.ReferenceAssemblies.net45/1.0.3" -OutFile "${{ runner.temp }}\dnf45.zip"
           Get-Item "${{ runner.temp }}\dnf45.zip" | Select-Object Name, Length, LastWriteTime
-          Get-Content "${{ runner.temp }}\dnf45.zip" -Encoding Byte -TotalCount 4
           Get-FileHash "${{ runner.temp }}\dnf45.zip" -Algorithm SHA1
           Expand-Archive -Path "${{ runner.temp }}\dnf45.zip" -DestinationPath "${{ runner.temp }}\dnf45"
           Get-ChildItem -Path "$env:RUNNER_TEMP\dnf45" -Recurse |
