@@ -20,7 +20,7 @@ jobs:
         run: Invoke-WebRequest -Uri "https://download.microsoft.com/download/B/A/4/BA4A7E71-2906-4B2D-A0E1-80CF16844F5F/dotNetFx45_Full_setup.exe" -Outfile "${{ runner.temp }}\DNF45.exe"
       - shell: powershell
         run: |
-          $process = Start-Process -FilePath "${{ runner.temp }}\DNF45.exe" -ArgumentList "/q /norestart" -Wait -PassThru -RedirectStandardOutput "${{ runner.temp }}\install.log" -RedirectStandardError "${{ runner.temp }}\error.log"
+          Start-Process -FilePath "${{ runner.temp }}\DNF45.exe" -ArgumentList "/q /norestart" -Wait -PassThru -RedirectStandardOutput "${{ runner.temp }}\install.log" -RedirectStandardError "${{ runner.temp }}\error.log"
           Get-Content "${{ runner.temp }}\install.log"
           Get-Content "${{ runner.temp }}\error.log"
       - shell: powershell
