@@ -7,7 +7,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - shell: powershell
-        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser
+        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
       - shell: powershell
         run: Get-STDotNetVersion
 
@@ -15,7 +15,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - shell: powershell
-        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser
+        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
       - shell: powershell
         run: Get-STDotNetVersion
 
@@ -23,7 +23,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - shell: powershell
-        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser
+        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
       - shell: powershell
         run: Get-STDotNetVersion
 
@@ -31,6 +31,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - shell: powershell
-        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser
+        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
       - shell: powershell
         run: Get-STDotNetVersion
