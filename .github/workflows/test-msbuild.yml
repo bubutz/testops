@@ -7,30 +7,19 @@ jobs:
     runs-on: windows-latest
     steps:
       - shell: powershell
-        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
-      - shell: powershell
-        run: Get-STDotNetVersion
-
-  ps-sep:
-    runs-on: windows-latest
-    steps:
+        run: |
+          Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
+          Get-ItemProperty -name Version,Release -EA 0 |
+          Where { $_.PSChildName -match '^(?!S)\p{L}'} |
+          Select PSChildName, Version, Release
       - shell: powershell
         run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
       - shell: powershell
         run: Get-STDotNetVersion
-
-  cmd:
-    runs-on: windows-latest
-    steps:
-      - shell: powershell
-        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
-      - shell: powershell
-        run: Get-STDotNetVersion
-
-  cmd-cep:
-    runs-on: windows-latest
-    steps:
-      - shell: powershell
-        run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
-      - shell: powershell
-        run: Get-STDotNetVersion
+  # cmd:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - shell: powershell
+  #       run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
+  #     - shell: powershell
+  #       run: Get-STDotNetVersion
