@@ -16,6 +16,13 @@ jobs:
         run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
       - shell: powershell
         run: Get-STDotNetVersion
+      - shell: powershell
+        run: Invoke-WebRequest -Uri "https://download.microsoft.com/download/b/a/4/ba4a7e71-2906-a0e1-80cf16844f5f/dotNetFx45_Full_setup.exe" -Outfile "${{ runner.temp }}\DNF45.exe"
+      - shell: powershell
+        run: Start-Process -FilePath "${{ runner.temp }}\DNF45.exe" -ArgumentList "/q /norestart" -Wait
+      - shell: powershell
+        run: Get-STDotNetVersion
+
   # cmd:
   #   runs-on: windows-latest
   #   steps:
