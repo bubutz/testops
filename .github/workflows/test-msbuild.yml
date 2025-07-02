@@ -31,6 +31,7 @@ jobs:
           Select PSChildName, Version, Release
       - shell: powershell
         run: Get-STDotNetVersion
+      - run: ls "C:\Windows\Microsoft.NET\Framework\"
 
   # cmd:
   #   runs-on: windows-latest
