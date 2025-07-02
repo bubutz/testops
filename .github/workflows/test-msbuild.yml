@@ -33,7 +33,12 @@ jobs:
       #   run: Get-STDotNetVersion
       # - run: ls "C:\Windows\Microsoft.NET\Framework\"
       - uses: microsoft/setup-msbuild@v2
-      - run: dotnet add package Microsoft.NETFramework.ReferenceAssemblies.net45 --version 1.0.3
+      - shell: bash
+        run: |
+          curl -L https://www.nuget.org/api/v2/package/Microsoft.NETFramework.ReferenceAssemblies.net45/1.0.3 -o "${{ runner.temp }}\dnf45.zip"
+          file "${{ runner.temp }}\dnf45.zip"
+          sha1sum ${{ runner.temp }}\dnf45.zip
+          echo sum is 5aae67e77a3a628eed5ccceb6d5cf9db989742e6
 
   # cmd:
   #   runs-on: windows-latest
