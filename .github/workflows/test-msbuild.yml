@@ -37,9 +37,14 @@ jobs:
           Get-Item "${{ runner.temp }}\dnf45.zip" | Select-Object Name, Length, LastWriteTime
           Get-FileHash "${{ runner.temp }}\dnf45.zip" -Algorithm SHA1
           Expand-Archive -Path "${{ runner.temp }}\dnf45.zip" -DestinationPath "${{ runner.temp }}\dnf45"
-          Get-ChildItem -Path "$env:RUNNER_TEMP\dnf45" -Recurse |
+          Get-ChildItem -Path "${{ runner.temp }}\dnf45" -Recurse |
             Sort-Object LastWriteTime |
             Format-List Name, FullName, Length, LastWriteTime
+          Get-ChildItem -Path "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework"
+          Get-ChildItem -Path "C:\Windows\Microsoft.NET\Framework"
+      - run: |
+          Move-Item -Path "$env:RUNNER_TEMP\dnf45\build\.NETFramework\v4.5" -Destination "C:\Windows\Microsoft.NET\Framework\v4.5" -Force
+
 
   # cmd:
   #   runs-on: windows-latest
