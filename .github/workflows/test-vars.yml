@@ -25,7 +25,12 @@ jobs:
       - if: github.event.inputs.PERM
         run: echo ${{ env.PERM }}
       - if: '!github.event.inputs.PERM'
-        run: if [ -z "${{ inputs.PERM }}" ]; then echo err; exit 1; fi
+        run: if [ -z "${{ inputs.PERM }}" ]; then echo err; fi
+      - if: |
+          github.event.inputs.PERM == 'read' ||
+          github.event.inputs.PERM == 'write'
+        run: echo read write
+
 
   # if-with-global-env:
   #   name: If with Global ENV
