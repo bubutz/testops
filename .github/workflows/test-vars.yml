@@ -12,6 +12,13 @@ on:
           - 'read'
           - 'write'
           - 'admin'
+      TST:
+        description: 'TST'
+        required: true
+        type: choice
+        options:
+          - 'Add or update'
+          - 'Remove'
 
 env:
   PERM: ${{ inputs.PERM == 'read' && 'pull' ||
@@ -30,6 +37,8 @@ jobs:
           github.event.inputs.PERM == 'read' ||
           github.event.inputs.PERM == 'write'
         run: echo read write
+      - if: github.event.inputs.TST == 'Add or update'
+        run: echo add or update
 
 
   # if-with-global-env:
