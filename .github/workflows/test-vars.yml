@@ -5,7 +5,7 @@ on:
     inputs:
       PERM:
         description: 'PERM'
-        required: true
+        required: false
         type: choice
         options:
           - ''
