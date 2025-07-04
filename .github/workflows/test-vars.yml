@@ -1,4 +1,5 @@
-name: test ${{ inputs.PERM }} ${{ inputs.TST }}
+name: test vars
+run-name: test ${{ inputs.PERM }} ${{ inputs.TST }}
 
 on:
   workflow_dispatch:
