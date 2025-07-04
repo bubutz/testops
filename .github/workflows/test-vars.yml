@@ -8,6 +8,7 @@ on:
         required: true
         type: choice
         options:
+          - ''
           - 'read'
           - 'write'
           - 'admin'
@@ -21,7 +22,10 @@ jobs:
   test-env-var:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ env.PERM }}
+      - if: github.event.inputs.PERM
+        run: echo ${{ env.PERM }}
+      - if: '!github.event.inputs.PERM'
+        run: if [ -z "${{ inputs.PERM }}" ]; then echo err; exit 1; fi
 
   # if-with-global-env:
   #   name: If with Global ENV
