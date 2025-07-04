@@ -1,4 +1,4 @@
-name: test variables
+name: test ${{ inputs.PERM }} ${{ inputs.TST }}
 
 on:
   workflow_dispatch:
