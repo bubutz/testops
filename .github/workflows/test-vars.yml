@@ -30,7 +30,7 @@ jobs:
   test-env-var:
     runs-on: ubuntu-latest
     steps:
-      - name: ${{ input.TST }}
+      - name: ${{ inputs.TST }}
         run: echo hello
       - if: github.event.inputs.PERM
         run: echo ${{ env.PERM }}
