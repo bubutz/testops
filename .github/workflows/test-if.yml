@@ -1,0 +1,44 @@
+name: Test if
+
+on:
+  workflow_dispatch:
+    inputs:
+      ENV:
+        description: ENV
+        type: choice
+        options:
+          - 'ok'
+          - 'ng'
+      DEP:
+        description: DEP
+        type: choice
+        options:
+          - 'ok'
+          - 'ng'
+
+jobs:
+  pre:
+    name: Pre
+    runs-on: ubuntu-latest
+    steps:
+      - name: set env
+        id: set-env
+        run: echo "DEP=${{ inputs.DEP }}" >> $GITHUB_OUTPUT
+    outputs:
+      DEP: ${{ steps.set-env.outputs.DEP }}
+
+  chk:
+    name: Check
+    needs: [pre]
+    runs-on: ubuntu-latest
+    if: github.event.inputs.ENV == 'ok'
+    steps:
+      - run: echo Hello
+
+  post:
+    name: Post
+    needs: [pre, chk]
+    runs-on: ubuntu-latest
+    if: ${{ !failure() && !cancelled() && needs.pre.outputs.DEP == 'ok' }}
+    steps:
+      - run: echo Hello

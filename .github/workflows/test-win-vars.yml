@@ -1,0 +1,178 @@
+name: Test Setup GITHUB_OUTPUT
+
+on:
+  workflow_dispatch:
+    inputs:
+      BRANCH:
+        type: choice
+        options:
+          - 'UAT'
+          - 'master'
+      DEPLOY_WITH_SPECIFIC_BUILD_NUMBER:
+        type: choice
+        options:
+          - no
+          - yes
+      BUILD_NUMBER_ARTIFACT:
+        type: string
+
+jobs:
+  var-lin:
+    name: Setup vars with Linux runner
+    runs-on: ubuntu-latest
+
+    outputs:
+      DEPLOY: ${{ steps.lin-envs.outputs.DEPLOY }}
+      BUILD_NUMBER: ${{ steps.lin-envs.outputs.BUILD_NUMBER }}
+      BUILD_NUMBER_ARTIFACT: ${{ steps.lin-envs.outputs.BUILD_NUMBER_ARTIFACT }}
+      RUNNER: ${{ steps.lin-envs.outputs.RUNNER }}
+      DEPLOYMENT_SERVER: ${{ steps.lin-envs.outputs.DEPLOYMENT_SERVER }}
+      ENVIRONMENT: ${{ steps.lin-envs.outputs.ENVIRONMENT }}
+
+    steps:
+      - name: Setup vars
+        id: lin-envs
+        shell: bash
+        run: |
+          echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" >> $GITHUB_OUTPUT
+          echo "BUILD_NUMBER=${{ github.run_number }}" >> $GITHUB_OUTPUT
+          if [ "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" == "true" ]; then
+              echo "BUILD_NUMBER_ARTIFACT=$(tr -d ' ' <<< "${{ inputs.BUILD_NUMBER_ARTIFACT }}")" >> $GITHUB_OUTPUT
+          else
+              echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" >> $GITHUB_OUTPUT
+          fi
+          if [ "${{ inputs.BRANCH }}" = "UAT" ]; then
+              echo "RUNNER=nprd_runner" >> $GITHUB_OUTPUT
+              echo "DEPLOYMENT_SERVER=serveruat" >> $GITHUB_OUTPUT
+              echo "ENVIRONMENT=uat" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.BRANCH }}" = "master" ]; then
+              echo "RUNNER=prod_runner" >> $GITHUB_OUTPUT
+              echo "DEPLOYMENT_SERVER=serverprod" >> $GITHUB_OUTPUT
+              echo "ENVIRONMENT=prod" >> $GITHUB_OUTPUT
+          fi
+
+  var-win:
+    name: Setup vars with Windows runner
+    runs-on: windows-latest
+
+    outputs:
+      DEPLOY: ${{ steps.lin-envs.outputs.DEPLOY }}
+      BUILD_NUMBER: ${{ steps.lin-envs.outputs.BUILD_NUMBER }}
+      BUILD_NUMBER_ARTIFACT: ${{ steps.lin-envs.outputs.BUILD_NUMBER_ARTIFACT }}
+      RUNNER: ${{ steps.lin-envs.outputs.RUNNER }}
+      DEPLOYMENT_SERVER: ${{ steps.lin-envs.outputs.DEPLOYMENT_SERVER }}
+      ENVIRONMENT: ${{ steps.lin-envs.outputs.ENVIRONMENT }}
+
+    steps:
+      - name: Setup vars
+        id: win-envs
+        shell: pwsh
+        run: |
+          echo "DEPLOY=${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          echo "BUILD_NUMBER=${{ github.run_number }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+
+          if (-Not ([string]::IsNullOrWhiteSpace("${{ inputs.BUILD_NUMBER_ARTIFACT }}))) {
+              $BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT.Trim()
+          }
+          if ( "${{ inputs.DEPLOY_WITH_SPECIFIC_BUILD_NUMBER }}" ) {
+              echo "BUILD_NUMBER_ARTIFACT=$BUILD_NUMBER_ARTIFACT" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          } else {
+              echo "BUILD_NUMBER_ARTIFACT=${{ github.run_number }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          }
+          if ( "${{ inputs.BRANCH }}" -like "UAT" ) {
+              echo "RUNNER=nprd_runner" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+              echo "DEPLOYMENT_SERVER=serveruat" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+              echo "ENVIRONMENT=uat" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          } elseif ( "${{ inputs.BRANCH }}" -like "master" ) {
+              echo "RUNNER=prod_runner" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+              echo "DEPLOYMENT_SERVER=serverprod" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+              echo "ENVIRONMENT=prod" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf-8 -Append
+          }
+
+
+
+  # var-mac:
+  #   name: Setup vars with MacOS runner
+  #   runs-on: macos-latest
+  #
+  #   outputs:
+  #     DEPLOY: ${{ steps.lin-envs.outputs.DEPLOY }}
+  #     BUILD_NUMBER: ${{ steps.lin-envs.outputs.BUILD_NUMBER }}
+  #     BUILD_NUMBER_ARTIFACT: ${{ steps.lin-envs.outputs.BUILD_NUMBER_ARTIFACT }}
+  #     RUNNER: ${{ steps.lin-envs.outputs.RUNNER }}
+  #     DEPLOYMENT_SERVER: ${{ steps.lin-envs.outputs.DEPLOYMENT_SERVER }}
+  #     ENVIRONMENT: ${{ steps.lin-envs.outputs.ENVIRONMENT }}
+  #
+  #   steps:
+  #     - name: Setup vars
+  #       id: mac-envs
+
+
+  var-lin-show:
+    name: Show Linux vars
+    runs-on: windows-latest
+    needs: [var-lin]
+
+    env:
+      DEPLOY: ${{ needs.var-lin.outputs.DEPLOY }}
+      BUILD_NUMBER: ${{ needs.var-lin.outputs.BUILD_NUMBER }}
+      BUILD_NUMBER_ARTIFACT: ${{ needs.var-lin.outputs.BUILD_NUMBER_ARTIFACT }}
+      RUNNER: ${{ needs.var-lin.outputs.RUNNER }}
+      DEPLOYMENT_SERVER: ${{ needs.var-lin.outputs.DEPLOYMENT_SERVER }}
+      ENVIRONMENT: ${{ needs.var-lin.outputs.ENVIRONMENT }}
+
+    steps:
+      - name: Powershell show vars
+        shell: pwsh
+        run: |
+          echo "DEPLOY   ===   ${{ env.DEPLOY }}"
+          echo "BUILD_NUMBER   ===   ${{ env.BUILD_NUMBER }}"
+          echo "BUILD_NUMBER_ARTIFACT   ===   ${{ env.BUILD_NUMBER_ARTIFACT }}"
+          echo "RUNNER   ===   ${{ env.RUNNER }}"
+          echo "DEPLOYMENT_SERVER   ===   ${{ env.DEPLOYMENT_SERVER }}"
+          echo "ENVIRONMENT   ===   ${{ env.ENVIRONMENT }}"
+
+      - name: CMD show vars
+        shell: cmd
+        run: |
+          echo "DEPLOY   ===   ${{ env.DEPLOY }}"
+          echo "BUILD_NUMBER   ===   ${{ env.BUILD_NUMBER }}"
+          echo "BUILD_NUMBER_ARTIFACT   ===   ${{ env.BUILD_NUMBER_ARTIFACT }}"
+          echo "RUNNER   ===   ${{ env.RUNNER }}"
+          echo "DEPLOYMENT_SERVER   ===   ${{ env.DEPLOYMENT_SERVER }}"
+          echo "ENVIRONMENT   ===   ${{ env.ENVIRONMENT }}"
+
+
+  var-win-show:
+    name: Show Windows vars
+    runs-on: windows-latest
+    needs: [var-win]
+
+    env:
+      DEPLOY: ${{ needs.var-win.outputs.DEPLOY }}
+      BUILD_NUMBER: ${{ needs.var-win.outputs.BUILD_NUMBER }}
+      BUILD_NUMBER_ARTIFACT: ${{ needs.var-win.outputs.BUILD_NUMBER_ARTIFACT }}
+      RUNNER: ${{ needs.var-win.outputs.RUNNER }}
+      DEPLOYMENT_SERVER: ${{ needs.var-win.outputs.DEPLOYMENT_SERVER }}
+      ENVIRONMENT: ${{ needs.var-win.outputs.ENVIRONMENT }}
+
+    steps:
+      - name: Powershell show vars
+        shell: pwsh
+        run: |
+          echo "DEPLOY   ===   $DEPLOY"
+          echo "BUILD_NUMBER   ===   $BUILD_NUMBER"
+          echo "BUILD_NUMBER_ARTIFACT   ===   $BUILD_NUMBER_ARTIFACT"
+          echo "RUNNER   ===   $RUNNER"
+          echo "DEPLOYMENT_SERVER   ===   $DEPLOYMENT_SERVER"
+          echo "ENVIRONMENT   ===   $ENVIRONMENT"
+
+      - name: CMD show vars
+        shell: cmd
+        run: |
+          echo "DEPLOY   ===   ${{ env.DEPLOY }}"
+          echo "BUILD_NUMBER   ===   ${{ env.BUILD_NUMBER }}"
+          echo "BUILD_NUMBER_ARTIFACT   ===   ${{ env.BUILD_NUMBER_ARTIFACT }}"
+          echo "RUNNER   ===   ${{ env.RUNNER }}"
+          echo "DEPLOYMENT_SERVER   ===   ${{ env.DEPLOYMENT_SERVER }}"
+          echo "ENVIRONMENT   ===   ${{ env.ENVIRONMENT }}"

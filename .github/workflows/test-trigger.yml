@@ -1,0 +1,15 @@
+name: test trigger
+
+on:
+  workflow_dispatch: {}
+  # push:
+  #   branches:
+  #     - main
+  #     - uat
+
+jobs:
+  test-trigger:
+    name: Test trigger
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Hello

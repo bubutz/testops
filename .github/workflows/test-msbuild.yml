@@ -1,0 +1,57 @@
+name: Test msbuild
+
+on: workflow_dispatch
+
+jobs:
+  ps:
+    runs-on: windows-latest
+    steps:
+      # - shell: powershell
+      #   run: |
+      #     Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
+      #     Get-ItemProperty -name Version,Release -EA 0 |
+      #     Where { $_.PSChildName -match '^(?!S)\p{L}'} |
+      #     Select PSChildName, Version, Release
+      # - shell: powershell
+      #   run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
+      # - shell: powershell
+      #   run: Get-STDotNetVersion
+      # - shell: powershell
+      #   run: Invoke-WebRequest -Uri "https://download.microsoft.com/download/B/A/4/BA4A7E71-2906-4B2D-A0E1-80CF16844F5F/dotNetFx45_Full_setup.exe" -Outfile "${{ runner.temp }}\DNF45.exe"
+      # - shell: powershell
+      #   run: |
+      #     Start-Process -FilePath "${{ runner.temp }}\DNF45.exe" -ArgumentList "/q /norestart" -Wait -PassThru -RedirectStandardOutput "${{ runner.temp }}\install.log" -RedirectStandardError "${{ runner.temp }}\error.log"
+      #     Get-Content "${{ runner.temp }}\install.log"
+      #     Get-Content "${{ runner.temp }}\error.log"
+      # - shell: powershell
+      #   run: |
+      #     Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -recurse |
+      #     Get-ItemProperty -name Version,Release -EA 0 |
+      #     Where { $_.PSChildName -match '^(?!S)\p{L}'} |
+      #     Select PSChildName, Version, Release
+      # - shell: powershell
+      #   run: Get-STDotNetVersion
+      # - run: ls "C:\Windows\Microsoft.NET\Framework\"
+      - run: |
+          Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Microsoft.NETFramework.ReferenceAssemblies.net45/1.0.3" -OutFile "${{ runner.temp }}\dnf45.zip"
+          Get-Item "${{ runner.temp }}\dnf45.zip" | Select-Object Name, Length, LastWriteTime
+          Get-FileHash "${{ runner.temp }}\dnf45.zip" -Algorithm SHA1
+          Expand-Archive -Path "${{ runner.temp }}\dnf45.zip" -DestinationPath "${{ runner.temp }}\dnf45"
+          Get-ChildItem -Path "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework"
+          Get-ChildItem -Path "C:\Windows\Microsoft.NET\Framework"
+      - run: |
+          Copy-Item -Path "${{ runner.temp }}\dnf45\build\.NETFramework\v4.5" -Destination "C:\Windows\Microsoft.NET\Framework" -Recurse -Force
+          Copy-Item -Path "${{ runner.temp }}\dnf45\build\.NETFramework\v4.5" -Destination "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5" -Recurse -Force
+
+          Get-ChildItem "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework"
+          Get-Item "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5"
+          Get-ChildItem "C:\Windows\Microsoft.NET\Framework"
+
+
+  # cmd:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - shell: powershell
+  #       run: Install-Module -Name DotNetVersionLister -Scope CurrentUser -Force
+  #     - shell: powershell
+  #       run: Get-STDotNetVersion

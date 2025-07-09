@@ -1,0 +1,39 @@
+name: test checkout
+
+on:
+  workflow_dispatch:
+    inputs:
+      BRANCH:
+        description: Select branch
+        type: choice
+        options:
+          - 'main'
+          - 'uat'
+
+jobs:
+  vars:
+    name: Set runner
+    runs-on: ubuntu-latest
+    steps:
+      - id: set-env
+        run: |
+          if [ "${{ inputs.BRANCH }}" = "main" ]; then
+              echo "RUNNER=ubuntu-latest" >> $GITHUB_OUTPUT
+          elif [ "${{ inputs.BRANCH }}" = "uat" ]; then
+              echo "RUNNER=macos-latest" >> $GITHUB_OUTPUT
+          fi
+
+    outputs:
+      RUNNER: ${{ steps.set-env.outputs.RUNNER }}
+
+  testrun:
+    name: Test runner
+    runs-on: ${{ needs.vars.outputs.RUNNER }}
+    needs: [vars]
+    steps:
+      - name: Checkout ${{ inputs.BRANCH }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.BRANCH }}
+      - run: |
+          ls -la
