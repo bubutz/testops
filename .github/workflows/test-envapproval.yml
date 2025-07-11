@@ -17,10 +17,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.actor }}
+      - env:
+          REVIEW: ${{ toJson(github.event.review) }}
+        run: echo "$REVIEW"
+      - run: echo ${{ github.event.review.user.login }}
 
   post:
     name: Post
     needs: [approval]
     runs-on: ubuntu-latest
     steps:
-      - run: echo Hello
+      - run: echo ${{ github.actor }}
+      - env:
+          REVIEW: ${{ toJson(github.event.review) }}
+        run: echo "$REVIEW"
+      - run: echo ${{ github.event.review.user.login }}
