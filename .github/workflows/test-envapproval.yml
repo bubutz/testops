@@ -1,0 +1,27 @@
+name: Test Environment Approval
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  pre:
+    name: Pre
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Hello
+      - run: echo EMAIL
+
+  approval:
+    name: approval
+    needs: [pre]
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Hello
+
+  post:
+    name: Post
+    needs: [approval]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Hello
