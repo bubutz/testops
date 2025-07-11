@@ -1,4 +1,4 @@
-name: test changeset (filechange)
+name: Test Filechange
 
 on:
   workflow_dispatch:

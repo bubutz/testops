@@ -1,4 +1,4 @@
-name: Test cmd exit
+name: Test CMD Exit
 
 on:
   workflow_dispatch: {}
