@@ -18,8 +18,8 @@ jobs:
     steps:
       - run: echo ${{ github.actor }}
       - env:
-          REVIEW: ${{ toJson(github.event.review) }}
-        run: echo "$REVIEW"
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - run: echo ${{ github.event.review.user.login }}
 
   post:
@@ -29,6 +29,6 @@ jobs:
     steps:
       - run: echo ${{ github.actor }}
       - env:
-          REVIEW: ${{ toJson(github.event.review) }}
-        run: echo "$REVIEW"
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - run: echo ${{ github.event.review.user.login }}
