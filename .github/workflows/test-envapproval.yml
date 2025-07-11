@@ -8,8 +8,7 @@ jobs:
     name: Pre
     runs-on: ubuntu-latest
     steps:
-      - run: echo Hello
-      - run: echo EMAIL
+      - run: echo ${{ github.actor }}
 
   approval:
     name: approval
@@ -17,7 +16,7 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     steps:
-      - run: echo Hello
+      - run: echo ${{ github.actor }}
 
   post:
     name: Post
