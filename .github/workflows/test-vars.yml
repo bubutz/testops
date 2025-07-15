@@ -49,6 +49,7 @@ jobs:
           echo "ABC_C=ABCC" >> $GITHUB_ENV
       - name: print ENV
         run: env | grep ABC_
+      - run: ${{ toJSON(github.event.inputs) }}
 
 
   # if-with-global-env:
