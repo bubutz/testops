@@ -5,7 +5,11 @@ on:
   workflow_dispatch:
     inputs:
       PERM:
-        description: 'PERM'
+        description: |
+          Input permission
+          for
+          something
+            haha
         required: false
         type: choice
         options:
