@@ -6,7 +6,7 @@ on:
     inputs:
       PERM:
         description: |
-          Input permission
+          Input permission:
           for
           something
             haha
