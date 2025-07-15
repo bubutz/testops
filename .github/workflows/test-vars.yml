@@ -50,6 +50,8 @@ jobs:
       - name: print ENV
         run: env | grep ABC_
       - run: |
+          echo '| Parameters | Value |' >> $GITHUB_STEP_SUMMARY
+          echo '| --- | --- |' >> $GITHUB_STEP_SUMMARY
           echo "${{ toJSON(github.event.inputs) }}" | tr -d ',{}' | grep -v '^$' |
             while read var; do
               echo "| $(tr ':' '|' <<< ${var}) |" >> $GITHUB_STEP_SUMMARY
