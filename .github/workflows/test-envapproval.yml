@@ -1,7 +1,15 @@
 name: Test Environment Approval
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      ENV:
+        description: environment
+        type: choice
+        required: true
+        options:
+          - 'UAT'
+          - 'PROD'
 
 jobs:
   pre:
@@ -9,8 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.actor }}
+      - if: ${{ inputs.ENV == 'PROD' }}
+        run: echo is PROD
 
   non-approval:
+    if: ${{ inputs.ENV == 'PROD' }}
     name: non approval
     needs: [pre]
     environment: production-abcdef
@@ -23,6 +34,7 @@ jobs:
       - run: echo ${{ github.event.review.user.login }}
 
   approval:
+    if: ${{ inputs.ENV == 'PROD' }}
     name: approval
     needs: [pre]
     environment: production
