@@ -33,7 +33,7 @@ env:
 jobs:
   test-env-var:
     runs-on: ubuntu-latest
-    if: ${{ inputs.ENV == 'read' }}
+    if: ${{ inputs.PERM == 'read' }}
     steps:
       - name: ${{ inputs.TST }}
         run: echo hello
