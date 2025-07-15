@@ -49,6 +49,7 @@ jobs:
   post:
     name: Post
     needs: [approval]
+    if: '!cancelled() && !failure()'
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.actor }}
