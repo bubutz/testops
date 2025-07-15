@@ -10,6 +10,18 @@ jobs:
     steps:
       - run: echo ${{ github.actor }}
 
+  non-approval:
+    name: non approval
+    needs: [pre]
+    environment: production-abcdef
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.actor }}
+      - env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - run: echo ${{ github.event.review.user.login }}
+
   approval:
     name: approval
     needs: [pre]
