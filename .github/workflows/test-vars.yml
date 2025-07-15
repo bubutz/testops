@@ -52,7 +52,7 @@ jobs:
       - run: |
           echo "${{ toJSON(github.event.inputs) }}" | tr -d ',{}' | grep -v '^$' |
             while read var; do
-              echo "| \"$(tr ':' '|' <<< ${var})\" |" >> $GITHUB_STEP_SUMMARY
+              echo "| $(tr ':' '|' <<< ${var}) |" >> $GITHUB_STEP_SUMMARY
             done
 
 
