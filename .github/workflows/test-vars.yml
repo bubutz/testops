@@ -42,6 +42,13 @@ jobs:
         run: echo read write
       - if: github.event.inputs.TST == 'Add or update'
         run: echo add or update
+      - name: set ENV
+        run: |
+          echo "ABC_A=ABCA" >> $GITHUB_ENV
+          echo "ABC_B=ABCB" >> $GITHUB_ENV
+          echo "ABC_C=ABCC" >> $GITHUB_ENV
+      - name: print ENV
+        run: env | grep ABC_
 
 
   # if-with-global-env:
