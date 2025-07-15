@@ -50,9 +50,10 @@ jobs:
       - name: print ENV
         run: env | grep ABC_
       - run: |
-          echo "${{ toJSON(github.event.inputs) }}" | tr -d ',{}' | while read var; do
-            echo "\"$(tr ':' ' |' <<< ${var})\"" >> $GITHUB_STEP_SUMMARY
-          done
+          echo "${{ toJSON(github.event.inputs) }}" | tr -d ',{}' | grep -v '^$' |
+            while read var; do
+              echo "| \"$(tr ':' '|' <<< ${var})\" |" >> $GITHUB_STEP_SUMMARY
+            done
 
 
   # if-with-global-env:
