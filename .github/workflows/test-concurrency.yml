@@ -1,0 +1,15 @@
+name: Test concurrency group
+
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.run_id }}
+
+jobs:
+  test-concurrency:
+    name: Test concurrency
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep 120
+      - run: echo GHI
