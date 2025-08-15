@@ -5,6 +5,7 @@ on:
 
 concurrency:
   group: ${{ github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   test-concurrency:
