@@ -12,4 +12,4 @@ jobs:
     name: Test trigger
     runs-on: ubuntu-latest
     steps:
-      - uses: .github/actions/test-comp-shell@main
+      - uses: bubutz/testops/.github/actions/test-comp-shell@main
