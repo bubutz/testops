@@ -1,0 +1,8 @@
+name: Test shell
+description: Test shell
+
+runs:
+  using: composite
+  steps:
+    - shell: python
+      run: print('Hello world')
