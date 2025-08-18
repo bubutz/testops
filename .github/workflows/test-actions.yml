@@ -1,4 +1,4 @@
-name: test trigger
+name: test composite shell
 
 on:
   workflow_dispatch: {}
@@ -12,4 +12,4 @@ jobs:
     name: Test trigger
     runs-on: ubuntu-latest
     steps:
-      - run: echo Hello
+      - uses: .github/actions/test-comp-shell@main
