@@ -27,7 +27,7 @@ jobs:
           with open('${{ inputs.filename }}', 'w') as f:
             f.write(yaml.dump(a,indent=4))
       - id: app-token
-        uses: actions/create-github-app-token@2
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_ID_PRIV_KEY }}
