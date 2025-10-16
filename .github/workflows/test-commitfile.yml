@@ -37,7 +37,7 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           username="${{ steps.app-token.outputs.app-slug }}[bot]"
-          user-id=$(gh api "/users/${username}" --jq .id)
+          user-id="$(gh api /users/${username} --jq .id)"
           echo user-id $user-id
           git config --global user.name "${username}"
           git config --global user.email "${user-id}+${username}[bot]@users.noreply.github.com"
