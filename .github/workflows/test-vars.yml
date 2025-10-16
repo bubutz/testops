@@ -4,65 +4,76 @@ run-name: test ${{ inputs.PERM }} ${{ inputs.TST }}
 on:
   workflow_dispatch:
     inputs:
-      PERM:
-        description: |
-          Input permission:
-          for
-          something
-            haha
-        required: false
-        type: choice
-        options:
-          - ''
-          - 'read'
-          - 'write'
-          - 'admin'
-      TST:
-        description: 'TST'
-        required: true
-        type: choice
-        options:
-          - 'Add or update'
-          - 'Remove'
+      DRYRUN:
+        description: dryrun
+        default: true
+        type: boolean
+
+      # PERM:
+      #   description: |
+      #     Input permission:
+      #     for
+      #     something
+      #       haha
+      #   required: false
+      #   type: choice
+      #   options:
+      #     - ''
+      #     - 'read'
+      #     - 'write'
+      #     - 'admin'
+      # TST:
+      #   description: 'TST'
+      #   required: true
+      #   type: choice
+      #   options:
+      #     - 'Add or update'
+      #     - 'Remove'
 
 env:
-  PERM: ${{ inputs.PERM == 'read' && 'pull' ||
-            inputs.PERM == 'write' && 'push' ||
-            inputs.PERM == 'admin' && inputs.PERM }}
+  dryrun: ${{ inputs.DRYRUN && inputs.DRYRUN || false }}
+  # PERM: ${{ inputs.PERM == 'read' && 'pull' ||
+  #           inputs.PERM == 'write' && 'push' ||
+  #           inputs.PERM == 'admin' && inputs.PERM }}
 
 jobs:
   test-env-var:
     runs-on: ubuntu-latest
-    if: ${{ inputs.PERM == 'read' }}
     steps:
-      - name: ${{ inputs.TST }}
-        run: echo hello
-      - if: github.event.inputs.PERM
-        run: echo ${{ env.PERM }}
-      - if: '!github.event.inputs.PERM'
-        run: if [ -z "${{ inputs.PERM }}" ]; then echo err; fi
-      - if: |
-          github.event.inputs.PERM == 'read' ||
-          github.event.inputs.PERM == 'write'
-        run: echo read write
-      - if: github.event.inputs.TST == 'Add or update'
-        run: echo add or update
-      - name: set ENV
-        run: |
-          echo "ABC_A=ABCA" >> $GITHUB_ENV
-          echo "ABC_B=ABCB" >> $GITHUB_ENV
-          echo "ABC_C=ABCC" >> $GITHUB_ENV
-      - name: print ENV
-        run: env | grep ABC_
-      - run: |
-          echo '| Parameters | Value |' >> $GITHUB_STEP_SUMMARY
-          echo '| --- | --- |' >> $GITHUB_STEP_SUMMARY
-          echo "${{ toJSON(github.event.inputs) }}" | tr -d ',{}' | grep -v '^$' |
-            while read var; do
-              echo "| $(tr ':' '|' <<< ${var}) |" >> $GITHUB_STEP_SUMMARY
-            done
+      - run: echo ${{ env.dryrun }}
 
-
+  # test-env-var:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ inputs.PERM == 'read' }}
+  #   steps:
+  #     - name: ${{ inputs.TST }}
+  #       run: echo hello
+  #     - if: github.event.inputs.PERM
+  #       run: echo ${{ env.PERM }}
+  #     - if: '!github.event.inputs.PERM'
+  #       run: if [ -z "${{ inputs.PERM }}" ]; then echo err; fi
+  #     - if: |
+  #         github.event.inputs.PERM == 'read' ||
+  #         github.event.inputs.PERM == 'write'
+  #       run: echo read write
+  #     - if: github.event.inputs.TST == 'Add or update'
+  #       run: echo add or update
+  #     - name: set ENV
+  #       run: |
+  #         echo "ABC_A=ABCA" >> $GITHUB_ENV
+  #         echo "ABC_B=ABCB" >> $GITHUB_ENV
+  #         echo "ABC_C=ABCC" >> $GITHUB_ENV
+  #     - name: print ENV
+  #       run: env | grep ABC_
+  #     - run: |
+  #         echo '| Parameters | Value |' >> $GITHUB_STEP_SUMMARY
+  #         echo '| --- | --- |' >> $GITHUB_STEP_SUMMARY
+  #         echo "${{ toJSON(github.event.inputs) }}" | tr -d ',{}' | grep -v '^$' |
+  #           while read var; do
+  #             echo "| $(tr ':' '|' <<< ${var}) |" >> $GITHUB_STEP_SUMMARY
+  #           done
+  #
+  #
   # if-with-global-env:
   #   name: If with Global ENV
   #   runs-on: ubuntu-latest
