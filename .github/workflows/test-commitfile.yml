@@ -32,6 +32,10 @@ jobs:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_ID_PRIV_KEY }}
       - uses: actions/checkout@v5
+      - run: |
+          ls '${{ inputs.FILE }}'
+          cat '${{ inputs.FILE }}'
+          git status
       - name: Check in file
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
