@@ -1,0 +1,46 @@
+name: Test commit file
+
+on:
+  workflow_dispatch:
+    inputs:
+      FILE:
+        description: "File path/name"
+        default: "./file.yaml"
+
+jobs:
+  run-job:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: python
+        run: |
+          import os,json,yaml
+          a = {
+            'group_a': {
+              'a': 123,
+              'b': 456
+            },
+            'group_b': {},
+            'group_c': {
+              'a': 789
+            }
+          }
+          with open('${{ inputs.filename }}', 'w') as f:
+            f.write(yaml.dump(a,indent=4))
+      - id: app-token
+        uses: actions/create-github-app-token@2
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_ID_PRIV_KEY }}
+      - uses: actions/checkout@v5
+      - name: Check in file
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          username="${{ steps.app-token.outputs.app-slug }}[bot]"
+          user-id=$(gh api "/users/${username}" --jq .id)
+          echo user-id $user-id
+          git config --global user.name "${username}"
+          git config --global user.email "${user-id}+${username}[bot]@users.noreply.github.com"
+          git add "${{ inputs.FILE }}"
+          git commit -m "Test message"
+          git push
