@@ -24,7 +24,7 @@ jobs:
               'a': 789
             }
           }
-          with open('${{ inputs.filename }}', 'w') as f:
+          with open('${{ inputs.FILE }}', 'w') as f:
             f.write(yaml.dump(a,indent=4))
       - id: app-token
         uses: actions/create-github-app-token@v2
