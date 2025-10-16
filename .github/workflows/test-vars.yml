@@ -1,10 +1,10 @@
 name: test vars
-run-name: test ${{ inputs.PERM }} ${{ inputs.TST }}
+# run-name: test ${{ inputs.PERM }} ${{ inputs.TST }}
 
 on:
   push:
-    - branches: [main]
-    - paths: [.github/workflows/test-vars.yml]
+    branches: [main]
+    paths: [.github/workflows/test-vars.yml]
   workflow_dispatch:
     inputs:
       DRYRUN:
