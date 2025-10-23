@@ -1,0 +1,26 @@
+name: Test inputs
+
+on:
+  workflow_dispatch:
+    inputs:
+      DEBUG:
+        description: Logging set to debug?
+        default: false
+        type: boolean
+  push:
+    branches: [main]
+    paths: [.github/workflows/test-inputs.yml]
+jobs:
+  run-job:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: python
+        env:
+          DEBUG: ${{ inputs.DEBUG }}
+        run: |
+          import os
+          debug_level = os.getenv('DEBUG')
+          if debug_level:
+              print(f'Debug is set as: {DEBUG}')
+          else:
+              print(f'No debug is set: {DEBUG}')
