@@ -20,7 +20,7 @@ jobs:
           DEBUG: ${{ inputs.DEBUG }}
         run: |
           import os
-          debug_level = os.getenv('DEBUG')
+          debug_level = bool(os.getenv('DEBUG'))
           if debug_level:
               print(f'Debug is set as: {debug_level}')
           else:
