@@ -1,5 +1,4 @@
 name: Test inputs
-
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +9,8 @@ on:
   push:
     branches: [main]
     paths: [.github/workflows/test-inputs.yml]
+env:
+  DEBUG: ${{ inputs.DEBUG && inputs.DEBUG || false }}
 jobs:
   run-job:
     runs-on: ubuntu-latest
