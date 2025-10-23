@@ -9,8 +9,8 @@ on:
   push:
     branches: [main]
     paths: [.github/workflows/test-inputs.yml]
-env:
-  DEBUG: ${{ inputs.DEBUG && inputs.DEBUG || false }}
+# env:
+#   DEBUG: ${{ inputs.DEBUG && inputs.DEBUG || false }}
 jobs:
   run-job:
     runs-on: ubuntu-latest
@@ -22,6 +22,6 @@ jobs:
           import os
           debug_level = os.getenv('DEBUG')
           if debug_level:
-              print(f'Debug is set as: {DEBUG}')
+              print(f'Debug is set as: {debug_level}')
           else:
-              print(f'No debug is set: {DEBUG}')
+              print(f'No debug is set: {debug_level}')
