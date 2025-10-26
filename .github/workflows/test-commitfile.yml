@@ -5,7 +5,7 @@ on:
     inputs:
       FILE:
         description: "File path/name"
-        default: "./file.yaml"
+        default: "data/file.yml"
 
 jobs:
   run-job:
@@ -14,18 +14,12 @@ jobs:
       - uses: actions/checkout@v5
       - shell: python
         run: |
-          import os,json,yaml
-          a = {
-            'group_a': {
-              'a': 123,
-              'b': 456
-            },
-            'group_b': {},
-            'group_c': {
-              'a': 789
-            }
-          }
+          import os,json,yaml,datetime
+
           with open('${{ inputs.FILE }}', 'w') as f:
+            a = yaml.safe_load(f)
+
+          with open('/tmp/updated.yml', 'w') as f:
             f.write(yaml.dump(a,indent=4))
       - run: |
           ls '${{ inputs.FILE }}'
