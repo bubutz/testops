@@ -27,6 +27,10 @@ jobs:
           }
           with open('${{ inputs.FILE }}', 'w') as f:
             f.write(yaml.dump(a,indent=4))
+      - run: |
+          ls '${{ inputs.FILE }}'
+          cat '${{ inputs.FILE }}'
+          git status
       - id: app-token
         uses: actions/create-github-app-token@v2
         with:
