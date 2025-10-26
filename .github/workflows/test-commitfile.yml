@@ -23,7 +23,7 @@ jobs:
             a = yaml.safe_load(f)
           today = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
           randigit = gen()
-          a.update('a': {today: randigit})
+          a['a'].update({today: randigit})
           with open('${{ env.tmpfile }}', 'w') as f:
             f.write(yaml.dump(a,indent=4))
       - run: |
