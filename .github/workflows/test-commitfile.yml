@@ -11,7 +11,7 @@ jobs:
   run-job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - actions/checkout@v5
       - shell: python
         run: |
           import os,json,yaml
@@ -32,6 +32,9 @@ jobs:
         with:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_ID_PRIV_KEY }}
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ steps.app-token.outputs.token }}
       - run: |
           ls '${{ inputs.FILE }}'
           cat '${{ inputs.FILE }}'
