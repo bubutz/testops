@@ -19,9 +19,9 @@ jobs:
           import os,json,yaml,random,datetime
           def gen():
             return random.randint(100,999)
-          with open('${{ inputs.FILE }}', 'w') as f:
+          with open('${{ inputs.FILE }}', 'r') as f:
             a = yaml.safe_load(f)
-          today = datetime.datetime.now().strftime('%Y-%m-%d')
+          today = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
           randigit = gen()
           a.update({today: randigit})
           with open('${{ env.tmpfile }}', 'w') as f:
