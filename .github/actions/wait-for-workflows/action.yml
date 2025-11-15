@@ -1,0 +1,76 @@
+name: Wait for workflows
+description: Wait for specified workflows to complete before continuing
+
+inputs:
+  workflow_files:
+    description: Comma-seperated list of workflow files to wait for
+    required: true
+  max_wait_minutes:
+    description: Maximum time to wait in minutes
+    required: false
+    default: 30
+  check_interval_seconds:
+    description: Interval between checks in seconds
+    required: false
+    default: 30
+  github_token:
+    description: GitHub token for API access
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - name: Wait for workflows to complete
+      uses: actions/github-script@v8
+      env:
+        WORKFLOW_FILES: ${{ inputs.workflow_files }}
+        MAX_WAIT_MINUTES: ${{ inputs.max_wait_minutes }}
+        CHECK_INTERVAL_SECONDS: ${{ inputs.check_interval_seconds }}
+      with:
+        github-token: ${{ inputs.github_token }}
+        script: |
+          const workflowsInput = process.env.WORKFLOW_FILES;
+          const workflows = workflowsInput.split(',').map(w => w.trim());
+          const maxWaitTime = parseInt(process.env.MAX_WAIT_MINUTES) * 60 * 1000;
+          const checkInterval = parseInt(process.env.CHECK_INTERVAL_SECONDS) * 1000;
+          const startTime = Date.now();
+
+          console.log(`Waiting for workflows: ${workflows.join(', ')}`);
+          console.log(`Max wait time: ${process.env.MAX_WAIT_MINUTES} minutes`);
+          console.log(`Check interval: ${process.env.CHECK_INTERVAL_SECONDS} seconds`);
+
+          while (Date.now() - startTime < maxWaitTime) {
+              let allCompleted = true;
+
+              for (const workflowFile of workflows) {
+                  try {
+                      const runs = await github.rest.actions.listWorkflowRuns({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          workflow_id: workflowFile,
+                          per_page: 1,
+                          status: 'in_progress'
+                      });
+                      if (runs.data.workflow_runs.length > 0) {
+                          console.log(`${workflowFile} is still running...`)
+                          allCompleted = false;
+                          break;
+                      }
+                  } catch (error) {
+                      console.log(`Warning: Could not check ${workflowFile}: ${error.message}`);
+                  }
+              }
+
+              if (allCompleted) {
+                  console.log('✓ All workflows completed!');
+                  return;
+              }
+
+              console.log(`Waiting ${process.env.CHECK_INTERVAL_SECONDS} seconds before checking again..`)
+              await new Promise(resolve => setTimeout(resolve, checkInterval));
+          }
+
+          core.setFailed(`Timeout: Workflows did not complete within ${process.env.MAX_WAIT_MINUTES} minutes`);
+
+
