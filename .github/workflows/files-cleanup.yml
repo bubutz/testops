@@ -13,7 +13,7 @@ jobs:
           workflow_files: 'files-workflow1.yml, files-workflow2.yml'
       - run: |
           orgs=( $(ls -1 | grep org-) )
-          for org in "${org[@]}"; do
+          for org in "${orgs[@]}"; do
               cp src/hello.txt ${org}
               cp src/world.txt ${org}
           done
