@@ -12,10 +12,14 @@ jobs:
         with:
           workflow_files: 'files-workflow1.yml, files-workflow2.yml'
       - run: |
-          orgs=( $(ls -1 | grep org-) )
+          orgs=( org-* )
+          print "%s\n" "${orgs[@]}"
+          print "----"
+          ls -lA src
           for org in "${orgs[@]}"; do
-              cp src/hello.txt ${org}
-              cp src/world.txt ${org}
+              echo $org
+              cp src/hello.txt "${org}"
+              cp src/world.txt "${org}"
           done
           git status --short
           exit
