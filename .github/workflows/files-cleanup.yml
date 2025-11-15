@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: bubutz/.github/actions/wait-for-workflows@main
+      - uses: .github/actions/wait-for-workflows@main
         with:
           workflow_files: 'files-workflow1.yml, files-workflow2.yml'
       - run: |
