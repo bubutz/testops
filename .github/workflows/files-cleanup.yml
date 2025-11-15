@@ -13,8 +13,8 @@ jobs:
           workflow_files: 'files-workflow1.yml, files-workflow2.yml'
       - run: |
           orgs=( org-* )
-          print "%s\n" "${orgs[@]}"
-          print "----"
+          printf "%s\n" "${orgs[@]}"
+          echo "------------"
           ls -lA src
           for org in "${orgs[@]}"; do
               echo $org
