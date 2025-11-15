@@ -6,7 +6,8 @@ jobs:
   restore-all-templates:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - run: ls -lA ./.github/actions/wait-for-workflows
       - uses: ./.github/actions/wait-for-workflows@main
         with:
           workflow_files: 'files-workflow1.yml, files-workflow2.yml'
