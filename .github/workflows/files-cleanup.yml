@@ -1,0 +1,23 @@
+name: Restore all templates
+
+on: workflow_dispatch
+
+jobs:
+  restore-all-templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bubutz/.github/actions/wait-for-workflows@main
+        with:
+          workflow_files: 'files-workflow1.yml, files-workflow2.yml'
+      - run: |
+          orgs=( $(ls -1 | grep org-) )
+          for org in "${org[@]}"; do
+              cp src/hello.txt ${org}
+              cp src/world.txt ${org}
+          done
+          git status --short
+          exit
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
