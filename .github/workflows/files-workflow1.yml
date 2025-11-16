@@ -12,4 +12,4 @@ jobs:
   wait-time:
     runs-on: ubuntu-latest
     steps:
-      - run: sleep $(${{ inputs.WAIT_MINUTE }} * 60)
+      - run: sleep $((${{ inputs.WAIT_MINUTE }} * 60))
