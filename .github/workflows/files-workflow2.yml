@@ -1,0 +1,15 @@
+name: Restore - Wait for Y minutes
+
+on:
+  workflow_dispatch:
+    inputs:
+      WAIT_MINUTE:
+        description: minutes wait
+        default: 5
+        type: number
+
+jobs:
+  wait-time:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep $(${{ inputs.WAIT_MINUTE }} * 60)
