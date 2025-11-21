@@ -1,28 +1,28 @@
-name: Wait for workflows
-description: Wait for specified workflows to complete before continuing
+name: 'Wait for Workflows'
+description: 'Wait for specified workflows to complete before continuing'
 
 inputs:
   workflow_files:
-    description: Comma-seperated list of workflow files to wait for
+    description: 'Comma-separated list of workflow files to wait for'
     required: true
   max_wait_minutes:
-    description: Maximum time to wait in minutes
+    description: 'Maximum time to wait in minutes'
     required: false
-    default: 30
+    default: '60'
   check_interval_seconds:
-    description: Interval between checks in seconds
+    description: 'Interval between checks in seconds'
     required: false
-    default: 30
+    default: '30'
   github_token:
-    description: GitHub token for API access
+    description: 'GitHub token for API access'
     required: false
     default: ${{ github.token }}
 
 runs:
-  using: composite
+  using: 'composite'
   steps:
     - name: Wait for workflows to complete
-      uses: actions/github-script@v8
+      uses: actions/github-script@v7
       env:
         WORKFLOW_FILES: ${{ inputs.workflow_files }}
         MAX_WAIT_MINUTES: ${{ inputs.max_wait_minutes }}
@@ -35,42 +35,59 @@ runs:
           const maxWaitTime = parseInt(process.env.MAX_WAIT_MINUTES) * 60 * 1000;
           const checkInterval = parseInt(process.env.CHECK_INTERVAL_SECONDS) * 1000;
           const startTime = Date.now();
-
+          
           console.log(`Waiting for workflows: ${workflows.join(', ')}`);
           console.log(`Max wait time: ${process.env.MAX_WAIT_MINUTES} minutes`);
           console.log(`Check interval: ${process.env.CHECK_INTERVAL_SECONDS} seconds`);
-
+          
           while (Date.now() - startTime < maxWaitTime) {
-              let allCompleted = true;
-
-              for (const workflowFile of workflows) {
-                  try {
-                      const runs = await github.rest.actions.listWorkflowRuns({
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          workflow_id: workflowFile,
-                          per_page: 1,
-                          status: 'in_progress'
-                      });
-                      if (runs.data.workflow_runs.length > 0) {
-                          console.log(`${workflowFile} is still running...`)
-                          allCompleted = false;
-                          break;
-                      }
-                  } catch (error) {
-                      console.log(`Warning: Could not check ${workflowFile}: ${error.message}`);
-                  }
+            const runningWorkflows = [];
+            const completedWorkflows = [];
+            const errorWorkflows = [];
+            
+            // Check all workflows and collect their status
+            for (const workflowFile of workflows) {
+              try {
+                const runs = await github.rest.actions.listWorkflowRuns({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: workflowFile,
+                  per_page: 1,
+                  status: 'in_progress'
+                });
+                
+                if (runs.data.workflow_runs.length > 0) {
+                  runningWorkflows.push(workflowFile);
+                } else {
+                  completedWorkflows.push(workflowFile);
+                }
+              } catch (error) {
+                errorWorkflows.push({ file: workflowFile, error: error.message });
               }
-
-              if (allCompleted) {
-                  console.log('✓ All workflows completed!');
-                  return;
-              }
-
-              console.log(`Waiting ${process.env.CHECK_INTERVAL_SECONDS} seconds before checking again..`)
-              await new Promise(resolve => setTimeout(resolve, checkInterval));
+            }
+            
+            // Report status of all workflows
+            console.log('\n--- Workflow Status Check ---');
+            if (completedWorkflows.length > 0) {
+              console.log(`✓ Completed (${completedWorkflows.length}): ${completedWorkflows.join(', ')}`);
+            }
+            if (runningWorkflows.length > 0) {
+              console.log(`⏳ Running (${runningWorkflows.length}): ${runningWorkflows.join(', ')}`);
+            }
+            if (errorWorkflows.length > 0) {
+              console.log(`⚠️  Could not check (${errorWorkflows.length}):`);
+              errorWorkflows.forEach(w => console.log(`   - ${w.file}: ${w.error}`));
+            }
+            console.log('----------------------------\n');
+            
+            // If all workflows are completed, we're done
+            if (runningWorkflows.length === 0) {
+              console.log('✓ All workflows completed!');
+              return;
+            }
+            
+            console.log(`Waiting ${process.env.CHECK_INTERVAL_SECONDS} seconds before checking again...`);
+            await new Promise(resolve => setTimeout(resolve, checkInterval));
           }
-
+          
           core.setFailed(`Timeout: Workflows did not complete within ${process.env.MAX_WAIT_MINUTES} minutes`);
-
-
