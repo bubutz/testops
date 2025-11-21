@@ -35,59 +35,66 @@ runs:
           const maxWaitTime = parseInt(process.env.MAX_WAIT_MINUTES) * 60 * 1000;
           const checkInterval = parseInt(process.env.CHECK_INTERVAL_SECONDS) * 1000;
           const startTime = Date.now();
-          
+
           console.log(`Waiting for workflows: ${workflows.join(', ')}`);
           console.log(`Max wait time: ${process.env.MAX_WAIT_MINUTES} minutes`);
           console.log(`Check interval: ${process.env.CHECK_INTERVAL_SECONDS} seconds`);
-          
+
           while (Date.now() - startTime < maxWaitTime) {
-            const runningWorkflows = [];
-            const completedWorkflows = [];
-            const errorWorkflows = [];
-            
-            // Check all workflows and collect their status
-            for (const workflowFile of workflows) {
-              try {
-                const runs = await github.rest.actions.listWorkflowRuns({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  workflow_id: workflowFile,
-                  per_page: 1,
-                  status: 'in_progress'
-                });
-                
-                if (runs.data.workflow_runs.length > 0) {
-                  runningWorkflows.push(workflowFile);
-                } else {
-                  completedWorkflows.push(workflowFile);
-                }
-              } catch (error) {
-                errorWorkflows.push({ file: workflowFile, error: error.message });
+              const runningWorkflows = [];
+              const completedWorkflows = [];
+              const errorWorkflows = [];
+
+              // Check all workflows and collect their status
+              for (const workflowFile of workflows) {
+                  try {
+                      const runs = await github.rest.actions.listWorkflowRuns({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          workflow_id: workflowFile,
+                          per_page: 1,
+                          status: 'in_progress'
+                      });
+
+                      if (runs.data.workflow_runs.length > 0) {
+                          runningWorkflows.push(workflowFile);
+                      } else {
+                          completedWorkflows.push(workflowFile);
+                      }
+                  } catch (error) {
+                      errorWorkflows.push({ file: workflowFile, error: error.message });
+                  }
               }
-            }
-            
-            // Report status of all workflows
-            console.log('\n--- Workflow Status Check ---');
-            if (completedWorkflows.length > 0) {
-              console.log(`✓ Completed (${completedWorkflows.length}): ${completedWorkflows.join(', ')}`);
-            }
-            if (runningWorkflows.length > 0) {
-              console.log(`⏳ Running (${runningWorkflows.length}): ${runningWorkflows.join(', ')}`);
-            }
-            if (errorWorkflows.length > 0) {
-              console.log(`⚠️  Could not check (${errorWorkflows.length}):`);
-              errorWorkflows.forEach(w => console.log(`   - ${w.file}: ${w.error}`));
-            }
-            console.log('----------------------------\n');
-            
-            // If all workflows are completed, we're done
-            if (runningWorkflows.length === 0) {
-              console.log('✓ All workflows completed!');
-              return;
-            }
-            
-            console.log(`Waiting ${process.env.CHECK_INTERVAL_SECONDS} seconds before checking again...`);
-            await new Promise(resolve => setTimeout(resolve, checkInterval));
+
+              // Report status of all workflows
+              console.log('\n--- Workflow Status Check ---');
+              if (completedWorkflows.length > 0) {
+                  console.log(`✓ Completed (${completedWorkflows.length}): ${completedWorkflows.join(', ')}`);
+              }
+              if (runningWorkflows.length > 0) {
+                  console.log(`⏳ Running (${runningWorkflows.length}): ${runningWorkflows.join(', ')}`);
+              }
+              if (errorWorkflows.length > 0) {
+                  console.log(`⚠️  Could not check (${errorWorkflows.length}):`);
+                  errorWorkflows.forEach(w => console.log(`   - ${w.file}: ${w.error}`));
+              }
+              console.log('----------------------------\n');
+
+              // If there are errors checking workflows, fail immediately
+              if (errorWorkflows.length > 0) {
+                  const errorList = errorWorkflows.map(w => `${w.file} (${w.error})`).join(', ');
+                  core.setFailed(`Failed to check workflows: ${errorList}`);
+                  return;
+              }
+
+              // If all workflows are completed, we're done
+              if (runningWorkflows.length === 0) {
+                console.log('✓ All workflows completed!');
+                return;
+              }
+
+              console.log(`Waiting ${process.env.CHECK_INTERVAL_SECONDS} seconds before checking again...`);
+              await new Promise(resolve => setTimeout(resolve, checkInterval));
           }
-          
+
           core.setFailed(`Timeout: Workflows did not complete within ${process.env.MAX_WAIT_MINUTES} minutes`);
