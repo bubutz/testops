@@ -20,7 +20,7 @@ jobs:
             l: "456"
       fail-fast: false  # Continue testing other instances even if one fails
 
-    name: Test ${{ matrix.artifactory_instance.name }}
+    name: Test ${{ matrix.somevars.name }} at ${{ matrix.somevars.l }}
 
     steps:
       - run: echo Hello
