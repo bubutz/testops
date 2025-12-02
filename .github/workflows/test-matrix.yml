@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - run: echo Hello
-      - run: echo "name ${{ matrix.somevars.name }}
+      - run: echo "name ${{ matrix.somevars.name }}"
       - run: echo "l ${{ matrix.somevars.l }}"
       - run: echo "id ${{ matrix.somevars.id }}"
       - run: echo world!
