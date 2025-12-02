@@ -5,8 +5,8 @@ on:
   push:
     branches: [main]
     paths: [.github/workflows/test-vars.yml]
-  schedule:
-    - cron: "*/5 * * * *" #every 5 mins
+  # schedule:
+  #   - cron: "*/5 * * * *" #every 5 mins
   workflow_dispatch:
     inputs:
       DRYRUN:
