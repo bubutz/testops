@@ -45,7 +45,9 @@ jobs:
   test-env-var:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ env.dryrun }}
+      - run: |
+          echo "abc=12345" >> $GITHUB_ENV
+          echo ${{ env.abc }}
 
   # test-env-var:
   #   runs-on: ubuntu-latest
