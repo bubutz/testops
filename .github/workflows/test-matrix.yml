@@ -15,19 +15,23 @@ jobs:
         somevars:
           - name: "AABBCC"
             l: "abc"
+            id: a1
           - name: "DDEEFF"
             l: "def"
+            id: d1
           - name: "112233"
             l: "123"
+            id: 11
           - name: "445566"
             l: "456"
+            id: 44
       fail-fast: false  # Continue testing other instances even if one fails
 
     name: Test ${{ matrix.somevars.name }} at ${{ matrix.somevars.l }}
 
     steps:
       - run: echo Hello
-      - run: echo "Testing ${{ matrix.somevars.name }} at ${{ matrix.somevars.l }}"
-        env:
-          L: ${{ matrix.somevars.l }}
+      - run: echo "name ${{ matrix.somevars.name }}
+      - run: echo "l ${{ matrix.somevars.l }}"
+      - run: echo "id ${{ matrix.somevars.id }}"
       - run: echo world!
