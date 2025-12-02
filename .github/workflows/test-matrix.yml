@@ -27,7 +27,7 @@ jobs:
             id: 44
       fail-fast: false  # Continue testing other instances even if one fails
 
-    name: Test ${{ matrix.somevars.name }} at ${{ matrix.somevars.l }}
+    name: Test ${{ matrix.somevars.name }} at ${{ matrix.somevars.l }} id ${{ matrix.somevars.id }}
 
     steps:
       - run: echo Hello
