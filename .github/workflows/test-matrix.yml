@@ -1,4 +1,5 @@
 name: Test Matrix
+run-name: Test Matrix
 
 on:
   push:
