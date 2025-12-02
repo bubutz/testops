@@ -37,6 +37,7 @@ jobs:
       - run: echo "id ${{ matrix.somevars.id }}"
       - run: echo world!
       - run: exit 1
+        if: matrix.somevars.id == 44
 
   next-job:
     if: '!cancelled() && always()'
