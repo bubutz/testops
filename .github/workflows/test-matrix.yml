@@ -36,7 +36,7 @@ jobs:
       - run: echo "l ${{ matrix.somevars.l }}"
       - run: echo "id ${{ matrix.somevars.id }}"
       - run: echo world!
-      - run: exit 1
+      - run: sleep 5 && exit 1
         if: matrix.somevars.id == 44
 
   next-job:
