@@ -40,6 +40,8 @@ jobs:
 
   next-job:
     if: '!cancelled() && always()'
+    needs:
+      - test-matrix
     runs-on: ubuntu-latest
     steps:
       - run: echo hello
