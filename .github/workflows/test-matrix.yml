@@ -36,3 +36,10 @@ jobs:
       - run: echo "l ${{ matrix.somevars.l }}"
       - run: echo "id ${{ matrix.somevars.id }}"
       - run: echo world!
+      - run: exit 1
+
+  next-job:
+    if: '!cancelled() && always()'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo hello
