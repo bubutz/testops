@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      matrix:
+      matrix: &anchor
         somevars:
           - name: "AABBCC"
             l: "abc"
@@ -43,6 +43,8 @@ jobs:
     if: '!cancelled() && always()'
     needs:
       - test-matrix
+    strategy:
+      matrix: *anchor
     runs-on: ubuntu-latest
     steps:
-      - run: echo hello
+      - run: echo ${{ matrix.somevars.name }}
