@@ -32,12 +32,18 @@ jobs:
 
     steps:
       - run: echo Hello
+        id: a
       - run: echo "name ${{ matrix.somevars.name }}"
+        id: b
       - run: echo "l ${{ matrix.somevars.l }}"
+        id: c
       - run: echo "id ${{ matrix.somevars.id }}"
+        id: d
       - run: echo world!
+        id: e
       - run: sleep 5 && exit 1
         if: matrix.somevars.id == 44
+        id: f
 
   next-job:
     if: '!cancelled() && always()'
@@ -48,3 +54,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ matrix.somevars.name }}
+      - run: |
+          echo "# Test Matrix Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Test Name | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| AABBCC (a1) | ${{ needs.test-matrix.outputs.conclusion-a1 }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| DDEEFF (d1) | ${{ needs.test-matrix.outputs.conclusion-d1 }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 112233 (11) | ${{ needs.test-matrix.outputs.conclusion-11 }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 445566 (44) | ${{ needs.test-matrix.outputs.conclusion-44 }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Detailed Results" >> $GITHUB_STEP_SUMMARY
+          echo "- **AABBCC**: \`${{ needs.test-matrix.outputs.result-a1 }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **DDEEFF**: \`${{ needs.test-matrix.outputs.result-d1 }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **112233**: \`${{ needs.test-matrix.outputs.result-11 }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **445566**: \`${{ needs.test-matrix.outputs.result-44 }}\`" >> $GITHUB_STEP_SUMMARY
