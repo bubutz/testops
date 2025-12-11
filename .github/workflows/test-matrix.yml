@@ -49,8 +49,8 @@ jobs:
     if: '!cancelled() && always()'
     needs:
       - test-matrix
-    strategy:
-      matrix: *anchor
+    # strategy:
+    #   matrix: *anchor
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ matrix.somevars.name }}
