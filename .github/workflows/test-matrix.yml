@@ -61,7 +61,7 @@ jobs:
           echo "$json_data" | jq -r '.'
           echo;echo "____________________________________________"
           # name_conclusion_array=($(echo "$json_data" | jq -r '.jobs[] | select(.name | startswith("My matrix job")) | "\(.name).\(.conclusion)"'))
-          name_conclusion_array=($(echo "$json_data" | jq -r '.jobs[] | select("\(.name).\(.conclusion)"'))
+          name_conclusion_array=($(echo "$json_data" | jq -r '.jobs[] | "\(.name).\(.conclusion)"')
           printf "%s\n" "$name_conclusion_array"
           echo;echo "____________________________________________"
           for item in "${name_conclusion_array[@]}"; do
