@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-        echo "::error:: Fetch workflow run jobs"
+          echo "::error::Fetch workflow run jobs"
           json_data=$(curl -s -H "Authorization: Bearer ${{ github.token }}" \
                       "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs")
           echo;echo "____________________________________________"
