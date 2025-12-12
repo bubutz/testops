@@ -53,19 +53,18 @@ jobs:
     #   matrix: *anchor
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ matrix.somevars.name }}
       - run: |
-          echo "# Test Matrix Results Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Test Name | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| AABBCC (a1) | ${{ needs.test-matrix.outputs.conclusion-a1 }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| DDEEFF (d1) | ${{ needs.test-matrix.outputs.conclusion-d1 }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 112233 (11) | ${{ needs.test-matrix.outputs.conclusion-11 }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 445566 (44) | ${{ needs.test-matrix.outputs.conclusion-44 }} |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## Detailed Results" >> $GITHUB_STEP_SUMMARY
-          echo "- **AABBCC**: \`${{ needs.test-matrix.outputs.result-a1 }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **DDEEFF**: \`${{ needs.test-matrix.outputs.result-d1 }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **112233**: \`${{ needs.test-matrix.outputs.result-11 }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **445566**: \`${{ needs.test-matrix.outputs.result-44 }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "Fetch workflow run jobs"
+          json_data=$(curl -s -H "Authorization: Bearer ${{ github.token }}" \
+                      "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs")
+          echo;echo "____________________________________________"
+          echo "$json_data" | jq -r '.'
+          echo;echo "____________________________________________"
+          name_conclusion_array=($(echo "$json_data" | jq -r '.jobs[] | select(.name | startswith("My matrix job")) | "\(.name).\(.conclusion)"'))
+          echo;echo "____________________________________________"
+          for item in "${name_conclusion_array[@]}"; do
+              IFS='.' read -r name conclusion <<< "$item"
+              echo "Name: $name"
+              echo "Conclusion: $conclusion"
+          done
+          echo;echo "____________________________________________"
