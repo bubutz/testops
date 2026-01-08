@@ -11,7 +11,7 @@ on:
     paths: [.github/workflows/test-inputs.yml]
 
 env:
-  DRYRUN: ${{ inputs.DRYRUN && 'r' }}
+  DRYRUN: ${{ inputs.DRYRUN && inputs.DRYRUN || 'false' }}
 
 jobs:
   run-job:
