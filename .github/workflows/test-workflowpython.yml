@@ -1,0 +1,16 @@
+name: Test workflow python
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: [.github/workflows/test-worflowpython.yml]
+jobs:
+  run-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - shell: python
+        run: |
+          import scripts/test_utils.py
+          printhello()
+          printworld()
