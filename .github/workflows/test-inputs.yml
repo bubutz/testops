@@ -2,26 +2,31 @@ name: Test inputs
 on:
   workflow_dispatch:
     inputs:
-      DEBUG:
-        description: Logging set to debug?
+      DRYRUN:
+        description: Dry run?
         default: false
         type: boolean
   push:
     branches: [main]
     paths: [.github/workflows/test-inputs.yml]
-# env:
-#   DEBUG: ${{ inputs.DEBUG && inputs.DEBUG || false }}
+
+env:
+  DRYRUN: ${{ inputs.DRYRUN && 'r' }}
+
 jobs:
   run-job:
     runs-on: ubuntu-latest
     steps:
+      - run: echo ${{ env.DRYRUN }}
       - shell: python
-        env:
-          DEBUG: ${{ inputs.DEBUG }}
         run: |
           import os
-          debug_level = bool(os.getenv('DEBUG'))
-          if debug_level:
-              print(f'Debug is set as: {debug_level}')
+          DRYRUN: str|None = os.getenv("DRYRUN")
+
+          if DRYRUN:
+            print('DRYRUN:', DRYRUN)
+
+          if not DRYRUN:
+            print('not DRYRUN')
           else:
-              print(f'No debug is set: {debug_level}')
+            print('not DRYRUN:', DRYRUN)
