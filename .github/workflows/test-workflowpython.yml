@@ -3,7 +3,7 @@ on:
   workflow_dispatch: {}
   push:
     branches: [main]
-    paths: [.github/workflows/test-worflowpython.yml]
+    paths: [.github/workflows/test-workflowpython.yml]
 jobs:
   run-job:
     runs-on: ubuntu-latest
