@@ -30,3 +30,5 @@ jobs:
             print('not DRYRUN')
           else:
             print('not DRYRUN:', DRYRUN)
+
+          print(type(DRYRUN))
