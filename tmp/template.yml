@@ -1,0 +1,19 @@
+---
+aaa-repo1:
+  members:
+    - user1@example.com
+    - user2@example.com
+    - user3@example.com
+aaa-repo2:
+  members:
+    - user1@example.com
+    - user9@example.com
+abc-repo1:
+  members:
+    - user3@example.com
+bbb-repo1:
+  members:
+    - user3@example.com
+    - user6@example.com
+    - user7@example.com
+    - user8@example.com
