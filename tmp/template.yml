@@ -11,6 +11,8 @@ aaa-repo2:
 abc-repo1:
   members:
     - user3@example.com
+    - user4@example.com
+    - user9@example.com
 bbb-repo1:
   members:
     - user3@example.com
