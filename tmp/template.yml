@@ -1,3 +1,11 @@
+git diff HEAD~1 HEAD -U9999 -- tmp/template.yml |
+    awk '/^[ @+-][a-z].*:$/{gsub(/^[ @+-]/, ""); gsub(/:$/, ""); current=$0}
+        /^[+-][ ]*- .*@/ && current{repos[current]=1}
+        /^[+-][a-z].*:$/{gsub(/^[+-]/, ""); gsub(/:$/, ""); repos[$0]=1}
+        END{for(r in repos) print r}'
+
+
+
 ---
 aaa-repo1:
   members:
