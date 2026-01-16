@@ -13,9 +13,13 @@ abc-repo1:
     - user3@example.com
     - user4@example.com
     - user9@example.com
+    - user1@example.com
 bbb-repo1:
   members:
     - user3@example.com
     - user6@example.com
     - user7@example.com
     - user8@example.com
+ccc-repo1:
+  members:
+    - user1@example.com
