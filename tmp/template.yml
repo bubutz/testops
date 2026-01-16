@@ -25,6 +25,7 @@ abc-repo1:
     - user3@example.com
     - user4@example.com
     - user9@example.com
+    - user9@example.com
     - user1@example.com
     - user3@example.com
     - user4@example.com
@@ -69,3 +70,7 @@ ccc-repo1:
   members:
     - user1@example.com
     - user1@example.com
+
+ccc-repo1:
+  members:
+    - user2@example.com
