@@ -1,0 +1,158 @@
+Yes. The best way to combine them is to run your standard exporter side-by-side with a small "Sidecar" container that handles the status check.
+Here is the complete "Composite" Docker Solution. This setup gives you a single deployment that provides both the 4 standard metrics (Queue Time, etc.) AND your custom "Runner Status" metric.
+1. The Directory Structure
+Create a folder named github-monitoring and add these three files inside:
+github-monitoring/
+├── docker-compose.yml
+├── runner_status.py
+└── Dockerfile
+
+2. The Custom Script (runner_status.py)
+This script uses the GitHub API to check if your Runner Groups are "healthy." It exposes a metric github_runner_group_status (1 = Healthy, 0 = Disabled).
+import time
+import requests
+import os
+import signal
+import sys
+from prometheus_client import start_http_server, Gauge
+
+# --- Configuration ---
+GITHUB_ORG = os.getenv("GITHUB_ORG")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+# Check every 60 seconds to avoid hitting API rate limits
+POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", "60"))
+
+if not GITHUB_TOKEN or not GITHUB_ORG:
+    print("Error: GITHUB_ORG and GITHUB_TOKEN environment variables are required.")
+    sys.exit(1)
+
+# --- Metrics ---
+# 1 = Active/Online, 0 = Disabled/Offline
+GROUP_STATUS = Gauge(
+    'github_runner_group_status', 
+    'Status of GitHub Runner Group (1=Active, 0=Disabled)', 
+    ['org', 'group_name', 'visibility']
+)
+
+def fetch_status():
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json"
+    }
+    
+    # 1. Check Runner Groups (Most common cause of "Disabled" hosted runners)
+    try:
+        url = f"https://api.github.com/orgs/{GITHUB_ORG}/actions/runner-groups"
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code == 200:
+            groups = response.json().get('runner_groups', [])
+            for group in groups:
+                # Logic: If a group exists, it's generally "active" unless you have specific
+                # naming conventions like "DISABLED-xxx". 
+                # For Enterprise, you might also check 'selected_repositories_url' implies restriction.
+                # If you have specific "Larger Runners", they appear here too.
+                GROUP_STATUS.labels(
+                    org=GITHUB_ORG, 
+                    group_name=group['name'], 
+                    visibility=group['visibility']
+                ).set(1) # Set to 1 (Healthy) if found
+        else:
+            print(f"Failed to fetch groups: {response.status_code} - {response.text}")
+
+    except Exception as e:
+        print(f"Error connecting to GitHub: {e}")
+
+if __name__ == '__main__':
+    # Start Prometheus metrics server on port 8000
+    start_http_server(8000)
+    print(f"✅ Monitor running for Org: {GITHUB_ORG}")
+    print(f"📡 Metrics available at http://localhost:8000")
+
+    while True:
+        fetch_status()
+        time.sleep(POLL_INTERVAL)
+
+3. The Dockerfile
+This packages the python script into a lightweight container.
+# Use a lightweight Python image
+FROM python:3.9-slim
+
+# Install dependencies
+RUN pip install requests prometheus-client
+
+# Copy the script
+WORKDIR /app
+COPY runner_status.py .
+
+# Run unbuffered to see logs immediately
+ENV PYTHONUNBUFFERED=1
+
+# Expose the metrics port
+EXPOSE 8000
+
+# Start the poller
+CMD ["python", "runner_status.py"]
+
+4. The Docker Compose (The "glue")
+This runs both the standard exporter AND your custom one together.
+version: '3.8'
+
+services:
+  # 1. THE STANDARD EXPORTER (Queue Time, Billable Minutes, etc.)
+  github-exporter:
+    image: infinityworks/github-exporter:latest
+    restart: always
+    ports:
+      - "9171:9171"
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_ORGANIZATION=${GITHUB_ORG}
+      # This enables the specific collectors we need
+      - REPOS_ENABLED=false 
+      - ACTIONS_ENABLED=true 
+
+  # 2. YOUR CUSTOM STATUS POLLER (The "Disabled" Check)
+  runner-status:
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - GITHUB_ORG=${GITHUB_ORG}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - POLL_INTERVAL=60
+
+  # 3. PROMETHEUS (To scrape both)
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+5. Prometheus Config (prometheus.yml)
+You need to tell Prometheus to scrape both containers.
+global:
+  scrape_interval: 1m
+
+scrape_configs:
+  # Scrape the standard metrics
+  - job_name: 'github-standard'
+    static_configs:
+      - targets: ['github-exporter:9171']
+
+  # Scrape your custom status metric
+  - job_name: 'github-custom-status'
+    static_configs:
+      - targets: ['runner-status:8000']
+
+How to use this in Grafana
+Once you run docker-compose up -d, go to Grafana and query:
+ * For Status (The "Disabled" check):
+   * Query: github_runner_group_status
+   * Visualization: State Timeline
+   * Result: You will see a green bar for every active Runner Group. If one disappears or you modify the script to return 0 on error, it will turn Red/Blank.
+ * For Queue Time (Standard):
+   * Query: github_actions_job_queue_duration_seconds
+This gives you a single dashboard covering both performance (Queue Time) and availability (Runner Status).
