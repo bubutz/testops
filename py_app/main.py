@@ -1,5 +1,5 @@
 import sys
-from utils import dostuff
+from .utils import dostuff
 
 
 def main() -> int:
