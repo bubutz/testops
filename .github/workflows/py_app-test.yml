@@ -13,5 +13,5 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: 3.13
-      - run: python py_app/main.py
+      - run: python -m py_app.main
 
