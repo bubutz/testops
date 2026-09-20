@@ -1,0 +1,11 @@
+import sys
+from utils import dostuff
+
+
+def main() -> int:
+    dostuff('goodjob')
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

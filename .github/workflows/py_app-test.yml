@@ -1,0 +1,17 @@
+name: py_app test imports
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - py_app/**
+jobs:
+  test-py-import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: 3.13
+      - run: python py_app/main.py
+
