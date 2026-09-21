@@ -13,7 +13,7 @@ jobs:
               with:
                 python-version: '3.13'
             - name: Python Write output
-              id: outputs
+              id: write
               shell: python
               run: |
                 import os
@@ -27,4 +27,4 @@ jobs:
 
             - name: Get output from Python
               run: |
-                echo "${{ steps.outputs.debug_message }}"
+                echo "${{ steps.write.outputs.debug_message }}"
