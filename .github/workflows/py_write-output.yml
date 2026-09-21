@@ -15,6 +15,7 @@ jobs:
             - name: Python Write output
               shell: python
               run: |
+                import os
                 print("Hello world")
                 print("::error:: This is a test error from Python")
                 print("::warning:: This is a test warning from Python")
