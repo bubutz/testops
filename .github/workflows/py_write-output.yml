@@ -22,8 +22,12 @@ jobs:
                 print("::warning:: This is a test warning from Python")
                 print("::notice:: This is a test notice from Python")
                 print("::debug:: This is a test debug from Python")
+                multiline="""multi
+                line
+                output"""
+                print(multiline)
                 with open(os.environ["GITHUB_OUTPUT"], 'a') as fh:
-                    print(f"debug_message=This is a test debug message from Python", file=fh)
+                    print(f"debug_message={multiline}", file=fh)
 
             - name: Get output from Python
               run: |
