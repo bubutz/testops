@@ -27,8 +27,13 @@ jobs:
                 output"""
                 print(multiline)
                 with open(os.environ["GITHUB_OUTPUT"], 'a') as fh:
-                    print(f"debug_message={multiline}", file=fh)
+                    print(f"singleline=some message", file=fh)
+                    print(f"multiline<<EOF\n{multiline}\nEOF", file=fh)
 
             - name: Get output from Python
               run: |
-                echo "${{ steps.write.outputs.debug_message }}"
+                echo "Singleline"
+                echo "${{ steps.write.outputs.singleline }}"
+                echo
+                echo "Multiline"
+                echo "${{ steps.write.outputs.multiline }}"
