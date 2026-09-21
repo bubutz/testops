@@ -1,0 +1,21 @@
+name: Python write output
+on:
+    workflow_dispatch: {}
+    push:
+        branches: main
+        paths: .github/workflows/py_write-output.yml
+jobs:
+    py-write-output:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup Python
+              uses: actions/setup-python@v7
+              with:
+                python-version: '3.13'
+            - name: Python Write output
+              shell: python
+              run: |
+                print("Hello world")
+                print("::error:: This is a test error from Python")
+                print("::warning:: This is a test warning from Python")
+                print("::notice:: This is a test notice from Python")
