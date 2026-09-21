@@ -13,6 +13,7 @@ jobs:
               with:
                 python-version: '3.13'
             - name: Python Write output
+              id: outputs
               shell: python
               run: |
                 import os
@@ -22,8 +23,8 @@ jobs:
                 print("::notice:: This is a test notice from Python")
                 print("::debug:: This is a test debug from Python")
                 with open(os.environ["GITHUB_OUTPUT"], 'a') as fh:
-                    fh.write(f"debug_message=This is a test debug message from Python\n")
+                    print(f"debug_message=This is a test debug message from Python\n")
 
             - name: Get output from Python
               run: |
-                echo "${{ steps.python-write-output.outputs.debug_message }}"
+                echo "${{ steps.outputs.debug_message }}"
